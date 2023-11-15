@@ -1,0 +1,107 @@
+    .card-front{
+        display: inline-block;
+        padding: 10px;
+        width: 330px;
+        background-color: #323232;
+        border-radius: 1em;
+        box-shadow: 5px 5px 5px grey;
+    }
+  
+    .card-front img {
+        width: 100%;
+        height: auto;
+
+    }
+    .card-back{
+        display: inline-block;
+        padding: 10px;
+        width: 330px;
+        border-radius: 1em;
+      
+    }
+  
+    .card-back img {
+        box-shadow: 5px 5px 5px grey;
+        border-radius: 1em;
+        width: 100%;
+        height: auto;
+
+    }
+    .card-upperArena{
+        border: 5px solid #323232;
+        border-radius: 1em;
+        background-color: #fff;
+        margin-bottom: 0;
+    }
+    .card-text{
+        color: #fff;
+        font-size: 1em;
+        padding: 0;
+        margin: 0;
+    }
+    .card-ul{
+        margin:0;
+        padding: 0;
+    }
+    .card-li{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1em;
+        font-weight: bold;
+        list-style-type: none;
+        padding-left: 0.5em;
+        cursor: pointer;
+    }
+    .card-li:hover {
+        background-color: #323232;
+        color: rgb(255, 255, 255);
+      }
+
+    .card-li-span-since{
+        margin-right: 8.5em;
+    }
+    .card-li-span{
+        display: flex;
+        align-items: center;
+    }
+    .card-text-p{
+        margin: 0;
+    }
+
+    .card-text button {
+        background-color: #ffffff;
+        color: #323232;
+        padding: 3px 5px;
+        margin:0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .card-text button:hover {
+        background-color: #323232;
+        color: rgb(255, 255, 255);
+      }
+
+.card-flip {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  
+  .card-front, .card-back {
+    backface-visibility: hidden;
+    top: 0;
+    left: 0;
+  }
+  
+  .card-flip.flip {
+    transform: rotateY(180deg);
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+  }
+  
+
+      

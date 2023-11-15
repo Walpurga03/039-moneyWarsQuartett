@@ -1,0 +1,12 @@
+.cards-text h2 {
+    display: flex;
+    align-items: center; /* Zentriert die Elemente vertikal */
+    justify-content: center; /* Zentriert die Elemente horizontal, falls gewünscht */
+    font-size: 1.5em; /* oder eine andere passende Größe */
+  }
+  
+  .cards-text .icon {
+    width: 1em; /* Setzt die Breite des Icons auf die gleiche Größe wie die Schrift */
+    height: auto; /* Behält das Seitenverhältnis des Icons bei */
+    margin: 0 0.5em; /* Fügt Abstand um das Icon herum hinzu */
+  }
