@@ -15,7 +15,7 @@ const cardsData = [
   {
     id: 1,
     property0: -2002,
-    property1: "2002",
+    property1: "2021",
     property1E: "Since",
     property1D: "Seit",
     property2: 3,
