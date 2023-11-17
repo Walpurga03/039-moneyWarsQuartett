@@ -63,22 +63,28 @@ const createCard = async () => {
     return card;
 };
 
+
 // Funktion zum Lesen bestehender Karten aus einer Datei
-const readExistingCards = () => {
+const readExistingCards = async () => {
     const filePath = path.join(__dirname, 'newCards.js');
     if (fs.existsSync(filePath)) {
-        const existingData = fs.readFileSync(filePath, 'utf8');
-        return existingData.substring(existingData.indexOf('['), existingData.lastIndexOf(']') + 1);
+        try {
+            const existingCardsModule = await import(`file://${filePath}`);
+            return existingCardsModule.default;
+        } catch (error) {
+            console.error('Fehler beim Lesen oder Parsen der existierenden Daten:', error);
+            return [];
+        }
     }
-    return '[]';
+    return [];
 };
 
 // Funktion zum Speichern der Karten in einer Datei
-const saveToFile = (cards) => {
-    const existingCards = JSON.parse(readExistingCards());
-    const allCards = existingCards.concat(cards);
+const saveToFile = async (cards) => {
+    const existingCards = await readExistingCards();
+    const allCards = [...existingCards, ...cards];
     let formattedCards = allCards.map(card => formatCardObject(card)).join(',\n');
-    fs.writeFileSync('newCards.js', `const newCards = [\n${formattedCards}\n];\nexport default newCards;`);
+    fs.writeFileSync(path.join(__dirname, 'newCards.js'), `const newCards = [\n${formattedCards}\n];\nexport default newCards;`);
     console.log('Datei newCards.js aktualisiert.');
     rl.close();
 };
