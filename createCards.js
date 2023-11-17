@@ -51,9 +51,9 @@ const createCard = async () => {
         property4: parseInt(await askQuestion('Teilbarkeit (Nummer): ')),
         property4E: 'Divisibility',
         property4D: 'Teilbarkeit',
-        property5: parseInt(await askQuestion('Transportierbarkeit (Nummer): ')),
+        property5: parseInt(await askQuestion('Transportfähigkeit (Nummer): ')),
         property5E: 'Transportability',
-        property5D: 'Transportierbarkeit',
+        property5D: 'Transportfähigkeit',
         image: `/images/frontsite/${name}.png`,
         textE: await askQuestion('Englischer Info-Text: '),
         textD: await askQuestion('Deutscher Info-Text: ')
