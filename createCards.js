@@ -4,6 +4,10 @@ import readline from 'readline';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
+//Rückseite der Karten
+const backCardImagePath = '/images/backsite/backCard.png';
+
+
 // Ermitteln des Dateipfades und Verzeichnisses für die aktuelle Datei
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,6 +41,7 @@ const formatCardObject = (card) => {
 const createCard = async () => {
     let name = await askQuestion('Name der Karte:(Text->klein geschrieben) ') || 'default';
     let card = {
+        backCard: backCardImagePath,
         id: parseInt(await askQuestion('ID der Karte (Nummer): ')),
         property0: parseInt(await askQuestion('Zum Rechnen (Nummer->alles über null mit minus): ')),
         property1: await askQuestion('Seit wann (Anzeige): '),
