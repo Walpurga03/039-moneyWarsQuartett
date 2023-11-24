@@ -4,7 +4,7 @@ import '../styles/Card.css';
 import RatingScale from './RatingScale';
 import { compareCardProperties } from '../logic/GameLogic';
 
-const Card = ({ card, computerCard, onCompare}) => {
+const Card = ({ card, computerCard, onCompare, isClickable }) => {
     const [showFullText, setShowFullText] = useState(false);
     const [result, setResult] = useState('');
   
@@ -22,6 +22,7 @@ const Card = ({ card, computerCard, onCompare}) => {
         image } = card;
   
     const handlePropertyClick = (event) => {
+      if (!isClickable) return;
       const propertyName = event.target.getAttribute('data-property');
   
       if (computerCard && propertyName) {
@@ -42,11 +43,11 @@ const Card = ({ card, computerCard, onCompare}) => {
           <div className="card-upperArena">
             <img src={image} alt="Card Image" />
             <ul className="card-ul">
-              <li className="card-li" data-property="property0" onClick={handlePropertyClick}>{property1E}: <span className="card-li-span-since">{property1}</span></li>
-              <li className="card-li" data-property="property2" onClick={handlePropertyClick}>{property2E}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
-              <li className="card-li" data-property="property3" onClick={handlePropertyClick}>{property3E}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
-              <li className="card-li" data-property="property4" onClick={handlePropertyClick}>{property4E}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
-              <li className="card-li" data-property="property5" onClick={handlePropertyClick}>{property5E}: <span className="card-li-span">{property5}<RatingScale value={property5} fillColor="#E3C5B1" /></span></li>
+              <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property1" onClick={handlePropertyClick}>{property1E}: <span className="card-li-span-since">{property1}</span></li>
+              <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property2" onClick={handlePropertyClick}>{property2E}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
+              <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property3" onClick={handlePropertyClick}>{property3E}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
+              <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property4" onClick={handlePropertyClick}>{property4E}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
+              <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property5" onClick={handlePropertyClick}>{property5E}: <span className="card-li-span">{property5}<RatingScale value={property5} fillColor="#E3C5B1" /></span></li>
             </ul>
           </div>
           <div className="card-text">
@@ -67,6 +68,7 @@ const Card = ({ card, computerCard, onCompare}) => {
       property4: PropTypes.number.isRequired,
       property5: PropTypes.number.isRequired,
       image: PropTypes.string.isRequired,
+      isClickable: PropTypes.bool.isRequired,
     }).isRequired,
     computerCard: PropTypes.shape({
       textE: PropTypes.string,

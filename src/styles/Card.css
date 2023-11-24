@@ -51,9 +51,12 @@
         font-weight: bold;
         list-style-type: none;
         padding-left: 0.5em;
-        cursor: pointer;
     }
-    .card-li:hover {
+    .card-li.clickable {
+        cursor: pointer;
+      }
+
+    .card-li.clickable:hover {
         background-color: #323232;
         color: rgb(255, 255, 255);
       }

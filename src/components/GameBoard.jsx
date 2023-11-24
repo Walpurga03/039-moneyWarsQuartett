@@ -50,6 +50,7 @@ const GameBoard = () => {
             onCompare={handleCardComparison}
             updateCards={{ updatePlayerCards: setPlayerCards, updateComputerCards: setComputerCards }}
             remainingCards={playerCards.length}
+            isClickable={true}
           />
           <CardDisplay
             title="Computer Card"
@@ -58,6 +59,7 @@ const GameBoard = () => {
             onCompare={handleCardComparison}
             updateCards={{ updatePlayerCards: setPlayerCards, updateComputerCards: setComputerCards }}
             remainingCards={computerCards.length}
+            isClickable={false}
           />
         </div>
       </div>
