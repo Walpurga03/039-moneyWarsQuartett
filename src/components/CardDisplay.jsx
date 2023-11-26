@@ -5,8 +5,9 @@ import Icon from '../assets/icons/cards_icon.png'; // Symbol für die Karten
 import '../styles/CardDisplay.css'; // Stil-Datei für die CardDisplay-Komponente
 
 // CardDisplay-Komponente zur Anzeige einer Spielkarte mit zusätzlichen Informationen
-const CardDisplay = ({ title, card, otherCard, onCompare, updateCards, remainingCards, isClickable = true, isRevealed = false, isComputerCard = false}) => {
+const CardDisplay = ({currentLanguage, onToggleLanguage, title, card, otherCard, onCompare, updateCards, remainingCards, isClickable = true, isRevealed = false, isComputerCard = false}) => {
   
+  const cardText = currentLanguage === 'en' ? card.textE : card.textD;
   // Funktion, die aufgerufen wird, wenn auf eine Eigenschaft der Karte geklickt wird
   const handlePropertyClick = (property) => {
     if (isClickable) {
@@ -31,6 +32,7 @@ const CardDisplay = ({ title, card, otherCard, onCompare, updateCards, remaining
           isClickable={isClickable} // Ob die Karte anklickbar ist oder nicht
           isRevealed={isRevealed} // Zustand, ob die Karte aufgedeckt ist
           isComputerCard={isComputerCard}
+          currentLanguage={currentLanguage}
         />
       )}
       </div>

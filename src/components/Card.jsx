@@ -6,9 +6,26 @@ import RatingScale from './RatingScale'; // Komponente für die Bewertungsskala
 import { compareCardProperties } from '../logic/GameLogic'; // Funktion zum Vergleichen von Karteigenschaften
 
 // Card-Komponente zur Darstellung einer einzelnen Spielkarte
-const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComputerCard }) => {
+const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage  }) => {
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
+  const [showResultText, setShowResultText] = useState(false);
+
+  // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen
+  const text = currentLanguage === 'en' ? card.textE : card.textD;
+  const property1Label = currentLanguage === 'en' ? card.property1E : card.property1D;
+  const property2Label = currentLanguage === 'en' ? card.property2E : card.property2D;
+  const property3Label = currentLanguage === 'en' ? card.property3E : card.property3D;
+  const property4Label = currentLanguage === 'en' ? card.property4E : card.property4D;
+  const property5Label = currentLanguage === 'en' ? card.property5E : card.property5D;
+
+  const displayResultTextFor5Seconds = () => {
+    setShowResultText(true);
+  
+    setTimeout(() => {
+      setShowResultText(false);
+    }, 5000); // 5 Sekunden warten, dann verbergen
+  };
 
   // Funktion zum Umschalten der Textanzeige
   const toggleText = () => {
@@ -16,7 +33,7 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   };
 
   // Extrahieren der Eigenschaften der Karte
-    const { textE, 
+    const { 
         property1, property1E, 
         property2, property2E, 
         property3, property3E, 
@@ -34,6 +51,7 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       const comparisonResult = compareCardProperties(card, computerCard, propertyName);
       setResult(comparisonResult);
       onCompare(comparisonResult, propertyName);
+       displayResultTextFor5Seconds();
     }
   };
 
@@ -42,11 +60,6 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       // Rendern der Karte mit Eigenschaften und Steuerungselementen
     return (
         <>
-          <div className='result-text'>
-            {result === 'win' && <p className='win'>Win</p>}
-            {result === 'lose' && <p className='lose'>Lose</p>}
-            {result === 'draw' && <p className='draw'>Draw</p>}
-          </div>
           {isComputerCard && !isRevealed ? (
             <div className="card-back">
               <img src={backCard} alt="Back of the Card" />
@@ -64,11 +77,18 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
                 </ul>
               </div>
               <div className="card-text">
-                <p className='card-text-p'>{showFullText ? textE : `${textE.substring(0, 100)}...`}</p>
+                <p className='card-text-p'>{showFullText ? text : `${text.substring(0, 100)}...`}</p>
                 <button onClick={toggleText}>{showFullText ? 'Less' : 'More'}</button>
               </div>
             </div>
           )}
+            {showResultText && (
+              <div className='result-text'>
+                {result === 'win' && <p className='win'>Win</p>}
+                {result === 'lose' && <p className='lose'>Lose</p>}
+                {result === 'draw' && <p className='draw'>Draw</p>}
+              </div>
+            )}
         </> 
     );
   };
@@ -83,7 +103,8 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       property4: PropTypes.number.isRequired,
       property5: PropTypes.number.isRequired,
       image: PropTypes.string.isRequired,
-      backCard: PropTypes.string
+      backCard: PropTypes.string,
+      currentLanguage: PropTypes.string.isRequired,
     }).isRequired,
     computerCard: PropTypes.shape({
       textE: PropTypes.string,
@@ -93,7 +114,8 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       property4: PropTypes.number,
       property5: PropTypes.number,
       image: PropTypes.string,
-      backCard: PropTypes.string
+      backCard: PropTypes.string,
+      currentLanguage: PropTypes.string.isRequired,
     }),
     isClickable: PropTypes.bool.isRequired, // `isClickable` als separates Prop außerhalb von `card`
     onCompare: PropTypes.func.isRequired,

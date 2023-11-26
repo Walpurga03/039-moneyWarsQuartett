@@ -3,16 +3,36 @@
     justify-content: center;
     align-items: center;
   }
-.result-text{
-  position: absolute;
-  top: 3em;
-}
   
   .card-container {
     display: flex;
     justify-content: space-between;
     width: 80vw;
   }
+
+  .game-over-message {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 24px;
+    color: #FF0000; /* Rote Farbe für die Nachricht */
+    /* Weitere Stile nach Bedarf */
+  }
+
+  .start-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Vollbild */
+    text-align: center;
+  }
+  
+  .start-screen button {
+    padding: 10px 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+    /* Weitere Stile nach Bedarf */
+  }
+  
 
  
   

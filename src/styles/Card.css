@@ -5,6 +5,7 @@
   padding: 10px;
   width: 330px;
   background-color: #323232; /* Dunkler Hintergrund der Karte */
+  border: solid 1px white;
   border-radius: 1em; /* Abgerundete Ecken */
   box-shadow: 5px 5px 5px grey; /* Schatten für 3D-Effekt */
   backface-visibility: hidden; /* Verhindert das Anzeigen der Rückseite beim Drehen */
@@ -26,6 +27,7 @@
 /* Stil für das Bild auf der Rückseite der Karte */
 .card-back img {
   border-radius: 1em;
+  border: solid 1px white;
   box-shadow: 5px 5px 5px grey;
   width: 100%;
   height: auto;
@@ -120,7 +122,7 @@
 
 .card-front::after {
   background-color: #323232; /* eine Farbe, die zur Rückseite passt */
-  rotate: 10deg;
+  rotate: -5deg;
 }
 
 .card-back {
@@ -143,7 +145,37 @@
 }
 
 .card-back::after {
-  rotate: 15deg;
-  background-image: url('C:\Users\alexm\Desktop\GitHub\039-moneyWarsQuartett\public\images\backsite\backCard.png'); /* Pfad zum Bild einfügen */
+  rotate: 5deg;
+  background-image: url('/images/backsite/backCard.png'); /* Pfad zum Bild einfügen */
   background-size: cover; /* Deckt das gesamte Element ab */
 }
+
+.result-text {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #323232;
+  font-size: 3em;
+  font-weight: bolder;
+  font-style: italic;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  animation: slideInAndOut 5s ease-in-out;
+}
+ @keyframes slideInAndOut {
+  0% {
+    transform: translateX(-100vw); 
+    opacity: 0;
+  }
+  40%, 90%{
+    transform: translateX(-50%); 
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100vw); 
+    opacity: 0;
+  }
+} 
+
+
+
