@@ -1,14 +1,16 @@
-//id        -> vortlaufende id-nummer
-//name      -> was
-//property0 -> Since / Seit wann (anzeige)
-//property1 -> Since / Seit wann (zum rechnen)
-//property2 -> Scarcity / Knappheit
-//property3 -> Durability / Lebensdauer
-//property4 -> Divisibility / Teilbarkeit
-//property5 -> Transportability / Transportierbarkeit
-//image     -> pfad zum bild
-//textE     -> Englische info Text 
-//textD     -> Deutscher info Text
+// Datenstruktur für die Spielkarten
+
+// id        -> Vortlaufende Identifikationsnummer für jede Karte
+// name      -> Bezeichnung des Objekts oder Konzepts, das die Karte darstellt
+// property0 -> Zeitraum, seit wann das Objekt/Konzept existiert (für Anzeige)
+// property1 -> Zeitraum, seit wann das Objekt/Konzept existiert (für Berechnungen)
+// property2 -> Knappheit des Objekts/Konzepts
+// property3 -> Haltbarkeit/Lebensdauer des Objekts/Konzepts
+// property4 -> Teilbarkeit des Objekts/Konzepts
+// property5 -> Transportfähigkeit des Objekts/Konzepts
+// image     -> Pfad zum Bild, das das Objekt/Konzept darstellt
+// textE     -> Beschreibungstext in Englisch
+// textD     -> Beschreibungstext in Deutsch
 
 const cardsData = [
   {
@@ -31,7 +33,7 @@ const cardsData = [
     property5E: "Transportability",
     property5D: "Transportfähigkeit",
     image: "/images/frontsite/copper.png",
-    textE: "Copper has been.......................",
+    textE: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
     textD: "Kupfer hat man schon benutzt...............................",
   },
   {
@@ -54,7 +56,7 @@ const cardsData = [
     property5E: "Transportability",
     property5D: "Transportfähigkeit",
     image: "/images/frontsite/denarius.png",
-    textE: "The denarius was an",
+    textE: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
     textD: "Der Dinarius war...................",
   },
   {
@@ -77,7 +79,7 @@ const cardsData = [
     property5E: "Transportability",
     property5D: "Transportfähigkeit",
     image: "/images/frontsite/grain.png",
-    textE: "In abcient civilizatuoins.....................",
+    textE: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
     textD: "deutscher text ........................",
   },
   {
@@ -100,7 +102,7 @@ const cardsData = [
     property5E: "Transportability",
     property5D: "Transportfähigkeit",
     image: "/images/frontsite/euro.png",
-    textE: "The euro is shit",
+    textE: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
     textD: "der euro ist am arsch",
   },
   {
@@ -123,7 +125,7 @@ const cardsData = [
     property5E: "Transportability",
     property5D: "Transportfähigkeit",
     image: "/images/frontsite/teeth.png",
-    textE: "This form of money.....................",
+    textE: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
     textD: "bla bla bla ..........................",
   },
   {
@@ -146,7 +148,7 @@ const cardsData = [
     property5E: "Transportability",
     property5D: "Transportfähigkeit",
     image: "/images/frontsite/bitcoin.png",
-    textE: "bitcoin fixes this",
+    textE: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
     textD: "bhjgfkvlzlbl",
   }
   ];

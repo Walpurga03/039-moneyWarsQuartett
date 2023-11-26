@@ -1,110 +1,149 @@
-    .card-front{
-        display: inline-block;
-        padding: 10px;
-        width: 330px;
-        background-color: #323232;
-        border-radius: 1em;
-        box-shadow: 5px 5px 5px grey;
-    }
-  
-    .card-front img {
-        width: 100%;
-        height: auto;
+/* Grundlegendes Styling für die Vorderseite der Karte */
+.card-front {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  width: 330px;
+  background-color: #323232; /* Dunkler Hintergrund der Karte */
+  border-radius: 1em; /* Abgerundete Ecken */
+  box-shadow: 5px 5px 5px grey; /* Schatten für 3D-Effekt */
+  backface-visibility: hidden; /* Verhindert das Anzeigen der Rückseite beim Drehen */
+}
 
-    }
-    .card-back{
-        display: inline-block;
-        padding: 10px;
-        width: 330px;
-        border-radius: 1em;
-      
-    }
-  
-    .card-back img {
-        box-shadow: 5px 5px 5px grey;
-        border-radius: 1em;
-        width: 100%;
-        height: auto;
+/* Stil für das Bild auf der Vorderseite der Karte */
+.card-front img {
+  width: 100%;
+  height: auto; /* Automatische Höhe für eine proportionale Anpassung */
+}
 
-    }
-    .card-upperArena{
-        border: 5px solid #323232;
-        border-radius: 1em;
-        background-color: #fff;
-        margin-bottom: 0;
-    }
-    .card-text{
-        color: #fff;
-        font-size: 1em;
-        padding: 0;
-        margin: 0;
-    }
-    .card-ul{
-        margin:0;
-        padding: 0;
-    }
-    .card-li{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 1em;
-        font-weight: bold;
-        list-style-type: none;
-        padding-left: 0.5em;
-    }
-    .card-li.clickable {
-        cursor: pointer;
-      }
+/* Stil für die Rückseite der Karte */
+.card-back {
+  display: inline-block;
+  width: 350px;
+  backface-visibility: hidden; /* Verhindert das Anzeigen der Vorderseite beim Drehen */
+}
 
-    .card-li.clickable:hover {
-        background-color: #323232;
-        color: rgb(255, 255, 255);
-      }
+/* Stil für das Bild auf der Rückseite der Karte */
+.card-back img {
+  border-radius: 1em;
+  box-shadow: 5px 5px 5px grey;
+  width: 100%;
+  height: auto;
+}
 
-    .card-li-span-since{
-        margin-right: 8.5em;
-    }
-    .card-li-span{
-        display: flex;
-        align-items: center;
-    }
-    .card-text-p{
-        margin: 0;
-    }
+/* Styling für den oberen Bereich der Karte, der die Bild- und Bewertungsanzeige enthält */
+.card-upperArena {
+  border: 5px solid #323232;
+  border-radius: 1em;
+  background-color: #fff; /* Hintergrundfarbe für Kontrast zum dunklen Text */
+  margin-bottom: 0;
+}
 
-    .card-text button {
-        background-color: #ffffff;
-        color: #323232;
-        padding: 3px 5px;
-        margin:0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      
-      .card-text button:hover {
-        background-color: #323232;
-        color: rgb(255, 255, 255);
-      }
+/* Stil für den Textbereich unter dem Bild der Karte */
+.card-text {
+  color: #fff; /* Weißer Text für Kontrast zum dunklen Hintergrund */
+  font-size: 1em;
+  padding: 0;
+  margin: 0;
+}
 
-.card-flip {
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-  }
-  
-  .card-front, .card-back {
-    backface-visibility: hidden;
-    top: 0;
-    left: 0;
-  }
-  
-  .card-flip.flip {
-    transform: rotateY(180deg);
-  }
-  
-  .card-back {
-    transform: rotateY(180deg);
-  }
-  
+/* Grundstil für die Liste der Karteneigenschaften */
+.card-ul {
+  margin: 0;
+  padding: 0;
+}
 
-      
+/* Stil für die Listenelemente, die die Karteneigenschaften darstellen */
+.card-li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Verteilung des Inhalts im Listenelement */
+  font-size: 1em;
+  font-weight: bold; /* Fettdruck für bessere Lesbarkeit */
+  list-style-type: none; /* Entfernen des Standard-Listensymbols */
+  padding-left: 0.5em;
+}
+
+/* Hinzufügen eines Zeigers und Hintergrundfarbe bei Hover über anklickbare Listenelemente */
+.card-li.clickable {
+  cursor: pointer;
+}
+
+.card-li.clickable:hover {
+  background-color: #323232; /* Dunkler Hintergrund beim Hover */
+  color: rgb(255, 255, 255); /* Weißer Text beim Hover */
+}
+
+/* Weitere Styling-Elemente für die Positionierung und Ausrichtung innerhalb der Listenelemente */
+.card-li-span-since {
+  margin-right: 8.5em;
+}
+
+.card-li-span {
+  display: flex;
+  align-items: center;
+}
+
+/* Styling für den Paragrafen im Textbereich der Karte */
+.card-text-p {
+  margin: 0;
+}
+
+/* Stil für den Button unter dem Text */
+.card-text button {
+  background-color: #ffffff; /* Weißer Hintergrund */
+  color: #323232; /* Dunkler Text für Kontrast */
+  padding: 3px 5px;
+  margin: 0;
+  border: none;
+  border-radius: 4px; /* Leicht abgerundete Ecken */
+  cursor: pointer; /* Zeiger-Cursor beim Hover */
+}
+
+/* Hover-Stil für den Button */
+.card-text button:hover {
+  background-color: #323232; /* Dunkler Hintergrund beim Hover */
+  color: rgb(255, 255, 255); /* Weißer Text beim Hover */
+}
+
+.card-front::before, .card-front::after {
+  content: "";
+  position: absolute;
+  top: 5px; /* Leichtes Versetzen nach oben */
+  left: 5px; /* Leichtes Versetzen nach links */
+  width: calc(100% - 10px); /* Etwas kleiner als das Hauptelement */
+  height: calc(100% - 10px); /* Etwas kleiner als das Hauptelement */
+  border-radius: 1em;
+  box-shadow: 5px 5px 5px grey;
+  z-index: -1;
+}
+
+.card-front::after {
+  background-color: #323232; /* eine Farbe, die zur Rückseite passt */
+  rotate: 10deg;
+}
+
+.card-back {
+  position: relative;
+  display: inline-block;
+  width: 350px;
+  /* ... weitere Stile ... */
+}
+
+.card-back::before, .card-back::after {
+  content: "";
+  position: absolute;
+  top: 5px; /* leichtes Versetzen nach oben */
+  left: 5px; /* leichtes Versetzen nach links */
+  width: calc(100% - 10px); /* etwas kleiner als das Hauptelement */
+  height: calc(100% - 10px); /* etwas kleiner als das Hauptelement */
+  border-radius: 1em;
+  box-shadow: 5px 5px 5px grey;
+  z-index: -1;
+}
+
+.card-back::after {
+  rotate: 15deg;
+  background-image: url('C:\Users\alexm\Desktop\GitHub\039-moneyWarsQuartett\public\images\backsite\backCard.png'); /* Pfad zum Bild einfügen */
+  background-size: cover; /* Deckt das gesamte Element ab */
+}

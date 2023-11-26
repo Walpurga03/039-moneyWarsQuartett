@@ -10,3 +10,9 @@
     height: auto; /* Behält das Seitenverhältnis des Icons bei */
     margin: 0 0.5em; /* Fügt Abstand um das Icon herum hinzu */
   }
+
+  /* Stil für die leicht verdrehte Karte */
+.card-rotated {
+  transform: rotate(-5deg); /* Leichte Drehung */
+  transition: transform 0.3s ease; /* Sanfte Übergangsanimation */
+}
