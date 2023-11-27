@@ -32,6 +32,13 @@
     cursor: pointer;
     /* Weitere Stile nach Bedarf */
   }
+
+  .languageChange {
+    position: absolute;
+    left: 90%;
+    top: 5%;
+    transform: translate(-50%);
+  }
   
 
  

@@ -34,11 +34,11 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
 
   // Extrahieren der Eigenschaften der Karte
     const { 
-        property1, property1E, 
-        property2, property2E, 
-        property3, property3E, 
-        property4, property4E, 
-        property5, property5E,
+        property1,
+        property2, 
+        property3, 
+        property4, 
+        property5, 
         image, backCard } = card;
   
    // Funktion, die aufgerufen wird, wenn auf eine Eigenschaft der Karte geklickt wird
@@ -69,11 +69,11 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
               <div className="card-upperArena">
                 <img src={image} alt="Card Image" />
                 <ul className="card-ul">
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property1" onClick={handlePropertyClick}>{property1E}: <span className="card-li-span-since">{property1}</span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property2" onClick={handlePropertyClick}>{property2E}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property3" onClick={handlePropertyClick}>{property3E}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property4" onClick={handlePropertyClick}>{property4E}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property5" onClick={handlePropertyClick}>{property5E}: <span className="card-li-span">{property5}<RatingScale value={property5} fillColor="#E3C5B1" /></span></li>
+                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property1" onClick={handlePropertyClick}>{property1Label}: <span className="card-li-span-since">{property1}</span></li>
+                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property2" onClick={handlePropertyClick}>{property2Label}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
+                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property3" onClick={handlePropertyClick}>{property3Label}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
+                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property4" onClick={handlePropertyClick}>{property4Label}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
+                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property5" onClick={handlePropertyClick}>{property5Label}: <span className="card-li-span">{property5}<RatingScale value={property5} fillColor="#E3C5B1" /></span></li>
                 </ul>
               </div>
               <div className="card-text">

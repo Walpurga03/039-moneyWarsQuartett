@@ -6,7 +6,6 @@ import CardDisplay from './CardDisplay'; // Komponente zur Anzeige der Spielkart
 import "../styles/GameBoard.css"; // Stil-Datei für das GameBoard
 
 
-
 const GameBoard = () => {
   // Definition der Zustände für die Spielkarten der Spieler und des Computers sowie für den Unentschieden-Stapel
   const [playerCards, setPlayerCards] = useState([]);
@@ -26,49 +25,61 @@ const GameBoard = () => {
   };
 
   
-    // Funktion zum Aktualisieren der Kartenstapel nach jeder Runde
-    const updateCardStacks = useCallback((winner, loser, winnerCards, loserCards) => {
-      const updatedWinnerCards = [...winnerCards, winnerCards[0], loserCards[0], ...drawPile];
-      const updatedLoserCards = loserCards.slice(1);
+  const updateCardStacks = useCallback((result) => {
+    let updatedPlayerCards = [...playerCards];
+    let updatedComputerCards = [...computerCards];
+    let updatedDrawPile = [...drawPile];
   
-      setDrawPile([]);
-      return { updatedWinnerCards: updatedWinnerCards.slice(1), updatedLoserCards };
-    }, [drawPile]);
+    if (result === 'win') {
+      // Der Spieler gewinnt und erhält die oberste Computerkarte und den Unentschieden-Stapel
+      updatedPlayerCards.push(computerCards[0], ...updatedDrawPile);
+      updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
+      updatedDrawPile = [];
+    } else if (result === 'lose') {
+      // Der Computer gewinnt und erhält die oberste Spielerkarte und den Unentschieden-Stapel
+      updatedComputerCards.push(playerCards[0], ...updatedDrawPile);
+      updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
+      updatedDrawPile = [];
+    } else if (result === 'draw') {
+      // Bei einem Unentschieden werden beide obersten Karten auf den Unentschieden-Stapel gelegt
+      updatedDrawPile.push(playerCards[0], computerCards[0]);
+      updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
+      updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
+    }
   
-   // Funktion zum Vergleich der Karten und zum Aktualisieren der Spielstände
-   const handleCardComparison = useCallback((result) => {
+    setPlayerCards(updatedPlayerCards);
+    setComputerCards(updatedComputerCards);
+    setDrawPile(updatedDrawPile);
+  
+    // Spielende überprüfen
+    if (updatedPlayerCards.length === 0 || updatedComputerCards.length === 0) {
+      setGameOver(true);
+    }
+  }, [playerCards, computerCards, drawPile]);
+  
+  
+  
+  
+  
+  
+  
+  const handleCardComparison = useCallback((result) => {
     setIsComputerCardRevealed(true);
   
     setTimeout(() => {
-      let updatedPlayerCards = playerCards;
-      let updatedComputerCards = computerCards;
-  
-      if (result === 'win') {
-        const { updatedWinnerCards, updatedLoserCards } = updateCardStacks('player', 'computer', playerCards, computerCards);
-        updatedPlayerCards = updatedWinnerCards;
-        updatedComputerCards = updatedLoserCards;
-      } else if (result === 'lose') {
-        const { updatedWinnerCards, updatedLoserCards } = updateCardStacks('computer', 'player', computerCards, playerCards);
-        updatedComputerCards = updatedWinnerCards;
-        updatedPlayerCards = updatedLoserCards;
-      } else if (result === 'draw') {
-        updatedPlayerCards = playerCards.slice(1);
-        updatedComputerCards = computerCards.slice(1);
-      }
-  
-      // Zustände aktualisieren
-      setPlayerCards(updatedPlayerCards);
-      setComputerCards(updatedComputerCards);
+      const playerFirstCard = playerCards[0];
+      const computerFirstCard = computerCards[0];
+    
+      updateCardStacks(result, playerFirstCard, computerFirstCard);
       setIsComputerCardRevealed(false);
   
       // Spielende überprüfen
-      if (updatedPlayerCards.length === 0 || updatedComputerCards.length === 0) {
-        setGameOver(true); // Spiel ist beendet
+      if (playerCards.length === 0 || computerCards.length === 0) {
+        setGameOver(true);
       }
-  
     }, 4000);
-  
   }, [playerCards, computerCards, updateCardStacks]);
+  
   
      // Initialisierung des Spiels: Karten mischen und an Spieler und Computer verteilen
      useEffect(() => {
@@ -93,6 +104,9 @@ const GameBoard = () => {
       </div>
     ) : (
     <div className="game-board">
+      <div className="languageChange">
+        <button onClick={toggleLanguage}>de/en</button>
+      </div>
       <div className="card-container">
           <CardDisplay
             title="Player Card"
@@ -119,7 +133,6 @@ const GameBoard = () => {
               onToggleLanguage={toggleLanguage}
           />
       </div>
-      <button onClick={toggleLanguage}>Sprache wechseln</button>
       {gameOver && (
       <div className="game-over-message">
         Spiel zu Ende! {/* Hier können Sie eine detailliertere Nachricht einfügen */}

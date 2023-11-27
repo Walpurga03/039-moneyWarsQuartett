@@ -1,17 +1,21 @@
-// Datenstruktur für die Spielkarten
-
-// id        -> Vortlaufende Identifikationsnummer für jede Karte
-// name      -> Bezeichnung des Objekts oder Konzepts, das die Karte darstellt
-// property0 -> Zeitraum, seit wann das Objekt/Konzept existiert (für Anzeige)
-// property1 -> Zeitraum, seit wann das Objekt/Konzept existiert (für Berechnungen)
-// property2 -> Knappheit des Objekts/Konzepts
-// property3 -> Haltbarkeit/Lebensdauer des Objekts/Konzepts
-// property4 -> Teilbarkeit des Objekts/Konzepts
-// property5 -> Transportfähigkeit des Objekts/Konzepts
-// image     -> Pfad zum Bild, das das Objekt/Konzept darstellt
-// textE     -> Beschreibungstext in Englisch
-// textD     -> Beschreibungstext in Deutsch
-
+/**
+ * Datenstruktur für die Spielkarten.
+ * 
+ * @field {string} backCard - Pfad zum Bild der Rückseite der Karte.
+ * @field {number} id - Vortlaufende Identifikationsnummer für jede Karte.
+ * @field {Object} established - Informationen über die Entstehungszeit des Objekts/Konzepts.
+ * @field {number} established.year - Jahr der Entstehung (für Berechnungen).
+ * @field {string} established.text - Beschreibung der Entstehungszeit.
+ * @field {string} established.textE - Beschreibung in Englisch.
+ * @field {string} established.textD - Beschreibung in Deutsch.
+ * @field {number} scarcity - Knappheit des Objekts/Konzepts.
+ * @field {number} durability - Haltbarkeit/Lebensdauer des Objekts/Konzepts.
+ * @field {number} divisibility - Teilbarkeit des Objekts/Konzepts.
+ * @field {number} transportability - Transportfähigkeit des Objekts/Konzepts.
+ * @field {string} image - Pfad zum Bild, das das Objekt/Konzept darstellt.
+ * @field {string} textE - Beschreibungstext in Englisch.
+ * @field {string} textD - Beschreibungstext in Deutsch.
+ */
 const cardsData = [
   {
     backCard: "/images/backsite/backCard.png",
