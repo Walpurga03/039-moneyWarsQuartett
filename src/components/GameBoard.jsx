@@ -32,12 +32,14 @@ const GameBoard = () => {
   
     if (result === 'win') {
       // Der Spieler gewinnt und erhält die oberste Computerkarte und den Unentschieden-Stapel
-      updatedPlayerCards.push(computerCards[0], ...updatedDrawPile);
+      updatedPlayerCards.push(computerCards[0], playerCards[0], ...updatedDrawPile);
       updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
+      updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
       updatedDrawPile = [];
     } else if (result === 'lose') {
       // Der Computer gewinnt und erhält die oberste Spielerkarte und den Unentschieden-Stapel
-      updatedComputerCards.push(playerCards[0], ...updatedDrawPile);
+      updatedComputerCards.push(playerCards[0], computerCards[0], ...updatedDrawPile);
+      updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
       updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
       updatedDrawPile = [];
     } else if (result === 'draw') {
@@ -56,11 +58,6 @@ const GameBoard = () => {
       setGameOver(true);
     }
   }, [playerCards, computerCards, drawPile]);
-  
-  
-  
-  
-  
   
   
   const handleCardComparison = useCallback((result) => {
