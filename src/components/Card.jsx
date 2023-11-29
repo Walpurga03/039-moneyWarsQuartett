@@ -10,6 +10,8 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
   const [showResultText, setShowResultText] = useState(false);
+  const [SelectPropertyPlayer, setSelectPropertyPlayer] = useState('');
+  const [SelectPropertyComputer, setSelectPropertyComputer] = useState('');
 
   // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen
   const text = currentLanguage === 'en' ? card.textE : card.textD;
@@ -34,6 +36,7 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
 
   // Extrahieren der Eigenschaften der Karte
     const { 
+        property0,
         property1,
         property2, 
         property3, 
@@ -51,11 +54,15 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       const comparisonResult = compareCardProperties(card, computerCard, propertyName);
       setResult(comparisonResult);
       onCompare(comparisonResult, propertyName);
-       displayResultTextFor5Seconds();
+      displayResultTextFor5Seconds();
+     
+    const selectedPropertyPlayerValue = card[propertyName];
+    setSelectPropertyPlayer(selectedPropertyPlayerValue); 
+
+    const selectedPropertyValueComputer = computerCard[propertyName];
+    setSelectPropertyComputer(selectedPropertyValueComputer);
     }
   };
-
-  console.log("isClickable in Card:", isClickable);
 
       // Rendern der Karte mit Eigenschaften und Steuerungselementen
     return (
@@ -69,7 +76,7 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
               <div className="card-upperArena">
                 <img src={image} alt="Card Image" />
                 <ul className="card-ul">
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property1" onClick={handlePropertyClick}>{property1Label}: <span className="card-li-span-since">{property1}</span></li>
+                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property0" onClick={handlePropertyClick}>{property1Label}: <span className="card-li-span-since">{property1}</span></li>
                   <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property2" onClick={handlePropertyClick}>{property2Label}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
                   <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property3" onClick={handlePropertyClick}>{property3Label}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
                   <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property4" onClick={handlePropertyClick}>{property4Label}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
@@ -84,9 +91,9 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
           )}
             {showResultText && (
               <div className='result-text'>
-                {result === 'win' && <p className='win'>Win</p>}
-                {result === 'lose' && <p className='lose'>Lose</p>}
-                {result === 'draw' && <p className='draw'>Draw</p>}
+                {result === 'win' && <p className='win'>{SelectPropertyPlayer}-Win-{SelectPropertyComputer}</p>}
+                {result === 'lose' && <p className='lose'>{SelectPropertyPlayer}-Lose-{SelectPropertyComputer}</p>}
+                {result === 'draw' && <p className='draw'>{SelectPropertyPlayer}-Draw-{SelectPropertyComputer}</p>}
               </div>
             )}
         </> 
@@ -104,7 +111,6 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       property5: PropTypes.number.isRequired,
       image: PropTypes.string.isRequired,
       backCard: PropTypes.string,
-      currentLanguage: PropTypes.string.isRequired,
     }).isRequired,
     computerCard: PropTypes.shape({
       textE: PropTypes.string,
@@ -115,12 +121,13 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       property5: PropTypes.number,
       image: PropTypes.string,
       backCard: PropTypes.string,
-      currentLanguage: PropTypes.string.isRequired,
     }),
     isClickable: PropTypes.bool.isRequired, // `isClickable` als separates Prop außerhalb von `card`
     onCompare: PropTypes.func.isRequired,
     isRevealed: PropTypes.bool.isRequired,
-    isComputerCard: PropTypes.bool.isRequired
+    isComputerCard: PropTypes.bool.isRequired,
+    currentLanguage: PropTypes.string.isRequired, // Stellen Sie sicher, dass currentLanguage hier bleibt
+
   };
   
   

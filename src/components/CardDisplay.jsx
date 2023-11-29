@@ -14,7 +14,6 @@ const CardDisplay = ({currentLanguage, onToggleLanguage, title, card, otherCard,
       onCompare(property, card); // Übergeben des Klickereignisses und der Karte an die Vergleichsfunktion
     }
   };
-  console.log("isClickable in CardDisplay:", isClickable);
   
  // Rendern der Kartenansicht mit Titel, verbleibenden Karten und der eigentlichen Spielkarte
  return (
