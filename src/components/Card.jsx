@@ -10,8 +10,9 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
   const [showResultText, setShowResultText] = useState(false);
-  const [SelectPropertyPlayer, setSelectPropertyPlayer] = useState('');
-  const [SelectPropertyComputer, setSelectPropertyComputer] = useState('');
+  const [selectPropertyPlayer, setSelectPropertyPlayer] = useState('');
+  const [selectPropertyComputer, setSelectPropertyComputer] = useState('');
+  const [selectPropertyName, setSelectPropertyName] = useState('');
 
   // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen
   const text = currentLanguage === 'en' ? card.textE : card.textD;
@@ -61,6 +62,9 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
 
     const selectedPropertyValueComputer = computerCard[propertyName];
     setSelectPropertyComputer(selectedPropertyValueComputer);
+
+    setSelectPropertyName(propertyName); // Setzen des Namens der ausgewählten Eigenschaft
+    console.log(propertyName) // Loggen des Namens der ausgewählten Eigenschaft
     }
   };
 
@@ -91,9 +95,9 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
           )}
             {showResultText && (
               <div className='result-text'>
-                {result === 'win' && <p className='win'>{SelectPropertyPlayer}-Win-{SelectPropertyComputer}</p>}
-                {result === 'lose' && <p className='lose'>{SelectPropertyPlayer}-Lose-{SelectPropertyComputer}</p>}
-                {result === 'draw' && <p className='draw'>{SelectPropertyPlayer}-Draw-{SelectPropertyComputer}</p>}
+                {result === 'win' && <p className='win'>{selectPropertyPlayer}-Win-{selectPropertyComputer}</p>}
+                {result === 'lose' && <p className='lose'>{selectPropertyPlayer}-Lose-{selectPropertyComputer}</p>}
+                {result === 'draw' && <p className='draw'>{selectPropertyPlayer}-Draw-{selectPropertyComputer}</p>}
               </div>
             )}
         </> 
