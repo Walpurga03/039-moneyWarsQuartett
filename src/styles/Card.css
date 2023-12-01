@@ -157,10 +157,10 @@
   font-weight: bolder;
   font-style: italic;
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   z-index: 2;
-  animation: slideInAndOut 5s ease-in-out;
+  animation: slideInAndOut 6s ease-in-out;
 }
  @keyframes slideInAndOut {
   0% {

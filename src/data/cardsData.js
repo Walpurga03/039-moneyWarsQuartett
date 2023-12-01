@@ -44,7 +44,7 @@ const cardsData = [
     backCard: "/images/backsite/backCard.png",
     id: 2,
     property0: 200,
-    property1: "200 Bc - 200 AD",
+    property1: "200 Bc",
     property1E: "Since",
     property1D: "Seit",
     property2: 2,

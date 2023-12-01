@@ -13,6 +13,8 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   const [selectPropertyPlayer, setSelectPropertyPlayer] = useState('');
   const [selectPropertyComputer, setSelectPropertyComputer] = useState('');
   const [selectPropertyName, setSelectPropertyName] = useState('');
+  const [selectedPropertyText, setSelectedPropertyText] = useState('');
+
 
   // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen
   const text = currentLanguage === 'en' ? card.textE : card.textD;
@@ -49,6 +51,12 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
    const handlePropertyClick = (event) => {
     if (!isClickable) return;
     const propertyName = event.target.getAttribute('data-property');
+    let displayName = propertyName; // Standardmäßig der gleiche Name
+
+      // Verwenden Sie property1 als Anzeigenamen, wenn property0 ausgewählt wird
+  if (propertyName === 'property0') {
+    displayName = 'property1';
+  }
 
     // Vergleich der Eigenschaften und Aktualisierung des Ergebnisses
     if (computerCard && propertyName) {
@@ -57,14 +65,17 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
       onCompare(comparisonResult, propertyName);
       displayResultTextFor5Seconds();
      
-    const selectedPropertyPlayerValue = card[propertyName];
+
+    const selectedPropertyPlayerValue = card[displayName];
     setSelectPropertyPlayer(selectedPropertyPlayerValue); 
 
-    const selectedPropertyValueComputer = computerCard[propertyName];
+
+    const selectedPropertyValueComputer = computerCard[displayName];
     setSelectPropertyComputer(selectedPropertyValueComputer);
 
-    setSelectPropertyName(propertyName); // Setzen des Namens der ausgewählten Eigenschaft
-    console.log(propertyName) // Loggen des Namens der ausgewählten Eigenschaft
+    setSelectPropertyName(displayName); // Setzen des Namens der ausgewählten Eigenschaft
+    const propertyLabel = displayName + (currentLanguage === 'de' ? 'D' : 'E');
+    setSelectedPropertyText(card[propertyLabel] || propertyName);
     }
   };
 
@@ -95,9 +106,9 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
           )}
             {showResultText && (
               <div className='result-text'>
-                {result === 'win' && <p className='win'>{selectPropertyPlayer}-Win-{selectPropertyComputer}</p>}
-                {result === 'lose' && <p className='lose'>{selectPropertyPlayer}-Lose-{selectPropertyComputer}</p>}
-                {result === 'draw' && <p className='draw'>{selectPropertyPlayer}-Draw-{selectPropertyComputer}</p>}
+                {result === 'win' && <p className='win'>{selectedPropertyText}<br/>Player Win<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
+                {result === 'lose' && <p className='lose'>{selectedPropertyText}<br/>Player Lose<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
+                {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
               </div>
             )}
         </> 
