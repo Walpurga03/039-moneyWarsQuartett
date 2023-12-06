@@ -9,6 +9,19 @@
   border-radius: 1em; /* Abgerundete Ecken */
   box-shadow: 5px 5px 5px grey; /* Schatten für 3D-Effekt */
   backface-visibility: hidden; /* Verhindert das Anzeigen der Rückseite beim Drehen */
+  transition: transform 0.5s ease-in-out;
+  transform: rotateX(calc(calc(var(--mouse-y, 0.5) - 0.5) * -20deg))
+             rotateY(calc(calc(var(--mouse-x, 0.5) - 0.5) * 20deg));
+  transform-style: preserve-3d;
+
+}
+
+.card-container-3d{
+  perspective: 800px;
+}
+
+.card-container-3d:hover .card-front{
+  transition: transform 0.1s linear;
 }
 
 /* Stil für das Bild auf der Vorderseite der Karte */
@@ -122,7 +135,7 @@
 
 .card-front::after {
   background-color: #323232; /* eine Farbe, die zur Rückseite passt */
-  rotate: -5deg;
+  rotate: 0deg;/*verdrehung der hinteren karte*/
 }
 
 .card-back {
@@ -145,7 +158,7 @@
 }
 
 .card-back::after {
-  rotate: 5deg;
+  rotate: 0deg;/*verdrehung der hinteren karte*/
   background-image: url('/images/backsite/backCard.png'); /* Pfad zum Bild einfügen */
   background-size: cover; /* Deckt das gesamte Element ab */
 }
@@ -176,6 +189,62 @@
     opacity: 0;
   }
 } 
+.showProperty {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #323232;
+  font-size: 3em;
+  font-weight: bolder;
+  font-style: italic;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  z-index: 2;
+  animation: slideInAndOut 6s ease-in-out;
+}
+ @keyframes slideInAndOut {
+  0% {
+    transform: translateX(-100vw); 
+    opacity: 0;
+  }
+  40%, 90%{
+    transform: translateX(-50%); 
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100vw); 
+    opacity: 0;
+  }
+} 
+
+
+.row::after {
+  display: table;
+  content: " ";
+  clear: both;
+}
+
+
+
+
+
+/* .card-3d {
+  transition: transform 0.5s ease-in-out;
+  transform: rotateX(calc(calc(var(--mouse-y, 0.5) - 0.5) * -20deg))
+             rotateY(calc(calc(var(--mouse-x, 0.5) - 0.5) * 20deg));
+  transform-style: preserve-3d;
+            } */
+/* .card-container-3d:hover .card-3d{
+  transition: transform 0.1s linear;
+} */
+
+.card-3d h1 {
+  transform: translateZ(50px);
+}
+.card-3d p {
+  transform: translateZ(25px);
+}
+
+
 
 
 

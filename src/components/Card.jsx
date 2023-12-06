@@ -1,12 +1,15 @@
 // Importieren der notwendigen Abhängigkeiten und Komponenten
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'; // Für die Validierung der Prop-Typen
 import '../styles/Card.css'; // Stil-Datei für die Kartenkomponente
 import RatingScale from './RatingScale'; // Komponente für die Bewertungsskala
-import { compareCardProperties } from '../logic/GameLogic'; // Funktion zum Vergleichen von Karteigenschaften
+import { compareCardProperties, addMousePositionToCss } from '../logic/GameLogic'; // Funktion zum Vergleichen von Karteigenschaften
+
+window.addEventListener("load", addMousePositionToCss(), false);
+
 
 // Card-Komponente zur Darstellung einer einzelnen Spielkarte
-const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage  }) => {
+const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
   const [showResultText, setShowResultText] = useState(false);
@@ -79,15 +82,32 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
     }
   };
 
+  useEffect(() => {
+    addMousePositionToCss();
+  }, []);
+
+  useEffect(() => {
+    if (isComputerCard && isComputerTurn) {
+      // Simulieren eines Klicks auf die Eigenschaft, die der Computer gewählt hat
+      handlePropertyClickSimulation(computerSelectedProperty);
+    }
+  }, [isComputerCard, isComputerTurn, computerSelectedProperty]);
+
       // Rendern der Karte mit Eigenschaften und Steuerungselementen
     return (
         <>
+           <div className="container-3d">
+              <div className="col-3d" style={{ "--color-heading": "gray" }}>
+                <div className='card-container-3d mouse-position-css'>
+                    
+                    
+                 
           {isComputerCard && !isRevealed ? (
             <div className="card-back">
               <img src={backCard} alt="Back of the Card" />
             </div>
           ) : (
-            <div className="card-front">
+            <div className="card-front card-3d">
               <div className="card-upperArena">
                 <img src={image} alt="Card Image" />
                 <ul className="card-ul">
@@ -111,6 +131,9 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
                 {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
               </div>
             )}
+                </div>
+              </div>
+            </div>
         </> 
     );
   };
