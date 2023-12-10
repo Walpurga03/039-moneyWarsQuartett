@@ -39,16 +39,6 @@ const GameBoard = () => {
     // Bestimmen der stärksten Eigenschaft der Computerkarte
     const highestProperty = selectHighestPropertyForComputer(computerCard);
     setSelectedProperty(highestProperty);
-
-    // Nachdem die Eigenschaft ausgewählt wurde, führen Sie den Vergleich durch
-    // Dies könnte in einer separaten Funktion oder direkt hier implementiert werden
-    // Beispiel: compareCards() oder ähnliche Logik
-
-    // Aktualisieren Sie den Zustand basierend auf dem Ergebnis des Vergleichs
-    // Beispiel: updateCardStacks(), setIsComputerCardRevealed(), etc.
-
-    // Weitere Logik für den Computerzug
-    // Beispiel: Zustandsaktualisierungen, Vorbereiten für den nächsten Zug, etc.
 };
 
 
