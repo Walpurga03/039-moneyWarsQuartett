@@ -216,26 +216,11 @@
   }
 } 
 
-
 .row::after {
   display: table;
   content: " ";
   clear: both;
 }
-
-
-
-
-
-/* .card-3d {
-  transition: transform 0.5s ease-in-out;
-  transform: rotateX(calc(calc(var(--mouse-y, 0.5) - 0.5) * -20deg))
-             rotateY(calc(calc(var(--mouse-x, 0.5) - 0.5) * 20deg));
-  transform-style: preserve-3d;
-            } */
-/* .card-container-3d:hover .card-3d{
-  transition: transform 0.1s linear;
-} */
 
 .card-3d h1 {
   transform: translateZ(50px);
@@ -244,6 +229,11 @@
   transform: translateZ(25px);
 }
 
+
+.card-li.not-clickable {
+  opacity: 0.6; /* Verringerte Opazität */
+  pointer-events: none; /* Verhindert das Klicken */
+}
 
 
 

@@ -9,7 +9,7 @@ window.addEventListener("load", addMousePositionToCss(), false);
 
 
 // Card-Komponente zur Darstellung einer einzelnen Spielkarte
-const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
+const Card = ({showComputerChoiceButton, card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
   const [showResultText, setShowResultText] = useState(false);
@@ -17,6 +17,7 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   const [selectPropertyComputer, setSelectPropertyComputer] = useState('');
   const [selectPropertyName, setSelectPropertyName] = useState('');
   const [selectedPropertyText, setSelectedPropertyText] = useState('');
+
 
 
   // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen
@@ -52,6 +53,7 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   
    // Funktion, die aufgerufen wird, wenn auf eine Eigenschaft der Karte geklickt wird
    const handlePropertyClick = (event) => {
+    if (showComputerChoiceButton) return;
     if (!isClickable) return;
     const propertyName = event.target.getAttribute('data-property');
     let displayName = propertyName; // Standardmäßig der gleiche Name
@@ -93,37 +95,34 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
     }
   }, [isComputerCard, isComputerTurn, computerSelectedProperty]);
 
-      // Rendern der Karte mit Eigenschaften und Steuerungselementen
     return (
-        <>
-           <div className="container-3d">
-              <div className="col-3d" style={{ "--color-heading": "gray" }}>
-                <div className='card-container-3d mouse-position-css'>
-                    
-                    
-                 
-          {isComputerCard && !isRevealed ? (
-            <div className="card-back">
-              <img src={backCard} alt="Back of the Card" />
+      <>
+        <div className="container-3d">
+          <div className="col-3d" style={{ "--color-heading": "gray" }}>
+            <div className='card-container-3d mouse-position-css'>    
+              {isComputerCard && !isRevealed ? (
+                <div className="card-back">
+                  <img src={backCard} alt="Back of the Card" />
+                </div>
+              ) : (
+                <div className="card-front card-3d">
+                  <div className="card-upperArena">
+                    <img src={image} alt="Card Image" />
+                    <ul className="card-ul">
+                      <li className={`card-li ${isClickable&& !showComputerChoiceButton ? 'clickable' : 'not-clickable'}`} data-property="property0" onClick={handlePropertyClick}>{property1Label}: <span className="card-li-span-since">{property1}</span></li>
+                      <li className={`card-li ${isClickable&& !showComputerChoiceButton ? 'clickable' : 'not-clickable'}`} data-property="property2" onClick={handlePropertyClick}>{property2Label}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
+                      <li className={`card-li ${isClickable&& !showComputerChoiceButton ? 'clickable' : 'not-clickable'}`} data-property="property3" onClick={handlePropertyClick}>{property3Label}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
+                      <li className={`card-li ${isClickable&& !showComputerChoiceButton ? 'clickable' : 'not-clickable'}`} data-property="property4" onClick={handlePropertyClick}>{property4Label}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
+                      <li className={`card-li ${isClickable&& !showComputerChoiceButton ? 'clickable' : 'not-clickable'}`} data-property="property5" onClick={handlePropertyClick}>{property5Label}: <span className="card-li-span">{property5}<RatingScale value={property5} fillColor="#E3C5B1" /></span></li>
+                    </ul>
+                  </div>
+                  <div className="card-text">
+                    <p className='card-text-p'>{showFullText ? text : `${text.substring(0, 100)}...`}</p>
+                    <button onClick={toggleText}>{showFullText ? 'Less' : 'More'}</button>
+                  </div>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="card-front card-3d">
-              <div className="card-upperArena">
-                <img src={image} alt="Card Image" />
-                <ul className="card-ul">
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property0" onClick={handlePropertyClick}>{property1Label}: <span className="card-li-span-since">{property1}</span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property2" onClick={handlePropertyClick}>{property2Label}: <span className="card-li-span">{property2}<RatingScale value={property2} fillColor="#DE9796" /></span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property3" onClick={handlePropertyClick}>{property3Label}: <span className="card-li-span">{property3}<RatingScale value={property3} fillColor="#CEDBE6" /></span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property4" onClick={handlePropertyClick}>{property4Label}: <span className="card-li-span">{property4}<RatingScale value={property4} fillColor="#78CBB3" /></span></li>
-                  <li className={`card-li ${isClickable ? 'clickable' : ''}`} data-property="property5" onClick={handlePropertyClick}>{property5Label}: <span className="card-li-span">{property5}<RatingScale value={property5} fillColor="#E3C5B1" /></span></li>
-                </ul>
-              </div>
-              <div className="card-text">
-                <p className='card-text-p'>{showFullText ? text : `${text.substring(0, 100)}...`}</p>
-                <button onClick={toggleText}>{showFullText ? 'Less' : 'More'}</button>
-              </div>
-            </div>
-          )}
             {showResultText && (
               <div className='result-text'>
                 {result === 'win' && <p className='win'>{selectedPropertyText}<br/>Player Win<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
@@ -131,14 +130,12 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
                 {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
               </div>
             )}
-                </div>
-              </div>
-            </div>
-        </> 
+          </div>
+        </div>
+      </> 
     );
   };
 
-  // PropType-Validierung für die Card-Komponente
   Card.propTypes = {
     card: PropTypes.shape({
       textE: PropTypes.string.isRequired,
@@ -169,4 +166,4 @@ const Card = ({ card, computerCard, onCompare, isClickable, isRevealed, isComput
   };
   
   
-export default Card; // Exportieren der Card-Komponente für die Verwendung in anderen Teilen der Anwendung
+export default Card; 

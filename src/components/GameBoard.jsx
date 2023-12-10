@@ -1,13 +1,11 @@
-// Importieren der notwendigen Abhängigkeiten und Komponenten
 import React, { useState, useEffect, useCallback } from 'react';
-import cardsData from '../data/cardsData'; // Daten für die Spielkarten
-import { shuffleCards, dealCards, selectHighestPropertyForComputer, compareCardProperties } from '../logic/GameLogic'; // Spiellogik-Funktionen
-import CardDisplay from './CardDisplay'; // Komponente zur Anzeige der Spielkarten
-import "../styles/GameBoard.css"; // Stil-Datei für das GameBoard
-
+import cardsData from '../data/cardsData';
+import { shuffleCards, dealCards, selectHighestPropertyForComputer, compareCardProperties } from '../logic/GameLogic';
+import CardDisplay from './CardDisplay';
+import "../styles/GameBoard.css";
+import Card from './Card';
 
 const GameBoard = () => {
-  // Definition der Zustände für die Spielkarten der Spieler und des Computers sowie für den Unentschieden-Stapel
   const [playerCards, setPlayerCards] = useState([]);
   const [computerCards, setComputerCards] = useState([]);
   const [drawPile, setDrawPile] = useState([]);
@@ -22,11 +20,21 @@ const GameBoard = () => {
   const [lastWinner, setLastWinner] = useState(null);
   const [computerSelectedPropertyValue, setComputerSelectedPropertyValue] = useState(null);
   const [showComputerChoiceButton, setShowComputerChoiceButton] = useState(false);
+  const [roundCount, setRoundCount] = useState(0);
+  const [showResultText, setShowResultText] = useState(false);
 
 
+
+  const showResultTextFunction = () => {
+    // Hier kannst du die Logik implementieren, um den Resultatstext anzuzeigen
+    // Du kannst showResultText auf true setzen, um die Anzeige auszulösen
+    setShowResultText(true);
+  };
+  
   const computerTurn = () => {
     // Annahme: Die erste Karte des Computers wird ausgewählt
     const computerCard = computerCards[0];
+    
 
     // Überprüfen, ob eine Computerkarte vorhanden ist
     if (!computerCard) {
@@ -38,21 +46,18 @@ const GameBoard = () => {
     // Bestimmen der stärksten Eigenschaft der Computerkarte
     const highestProperty = selectHighestPropertyForComputer(computerCard);
     setSelectedProperty(highestProperty);
-};
-
+  };
 
   useEffect(() => {
     if (!playerTurn) {
         console.log('Computer macht seinen Zug');
         computerTurn();
     }
-}, [playerTurn]);
+  }, [playerTurn]);
 
-useEffect(() => {
+  useEffect(() => {
   console.log("Aktualisiertes selectedProperty:", selectedProperty);
-}, [selectedProperty]);
-
-
+  }, [selectedProperty]);
 
   const toggleLanguage = () => {
     setCurrentLanguage(currentLanguage === 'en' ? 'de' : 'en');
@@ -62,38 +67,41 @@ useEffect(() => {
     setIsGameStarted(true);
   };
 
-  
   const updateCardStacks = useCallback((result) => {
     let updatedPlayerCards = [...playerCards];
     let updatedComputerCards = [...computerCards];
     let updatedDrawPile = [...drawPile];
+
+    console.log("Aktuelles Ergebnis:", result); // Zeigt das aktuelle Ergebnis an
+
   
     if (result === 'win') {
       setLastWinner('player');
       setShowComputerChoiceButton(false);
-      // Der Spieler gewinnt und erhält die oberste Computerkarte und den Unentschieden-Stapel
       updatedPlayerCards.push(computerCards[0], playerCards[0], ...updatedDrawPile);
-      updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
-      updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
+      updatedComputerCards.shift(); 
+      updatedPlayerCards.shift();
       updatedDrawPile = [];
       setPlayerTurn(true);
-      console.log("win")
+      console.log("Spieler gewinnt, Computer-Button wird nicht angezeigt.");
     } else if (result === 'lose') {
+      console.log("Spieler verliert, Computer-Button sollte angezeigt werden.");
       setShowComputerChoiceButton(true);
       setLastWinner('computer');
       const nextComputerCard = computerCards[1];
       const bestProperty = selectHighestPropertyForComputer(nextComputerCard);
       updatedComputerCards.push(playerCards[0], computerCards[0], ...updatedDrawPile);
-      updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
+      updatedComputerCards.shift();
       updatedPlayerCards.shift();
       updatedDrawPile = [];
-      console.log("lose")
+      console.log("Ist Computer-Button sichtbar:", showComputerChoiceButton);
     } else if (result === 'draw') {
-      // Bei einem Unentschieden werden beide obersten Karten auf den Unentschieden-Stapel gelegt
       updatedDrawPile.push(playerCards[0], computerCards[0]);
-      updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
-      updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
+      updatedPlayerCards.shift();
+      updatedComputerCards.shift();
       console.log('draw');
+      console.log("Unentschieden, keine Änderung am Computer-Button.");
+
     }
   
     setPlayerCards(updatedPlayerCards);
@@ -106,35 +114,16 @@ useEffect(() => {
     }
   }, [playerCards, computerCards, drawPile]);
 
-  // Verwenden von useEffect, um Änderungen von playerTurn anzuzeigen
   useEffect(() => {
     console.log(playerTurn ? 'Spieler ist am Zug' : 'Computer ist am Zug');
   }, [playerTurn]);
   
-  
   const handleCardComparison = useCallback((result) => {
     setIsComputerCardRevealed(true);
+    setShowResultText(true);
 
     setTimeout(() => {
-        const playerFirstCard = playerCards[0];
-        const computerFirstCard = computerCards[0];
-
-        if (result === 'lose') {
-            setLastWinner('computer');
-            const nextComputerCard = computerCards[1];
-            const selectedProperty = selectHighestPropertyForComputer(nextComputerCard);
-
-            // Vergleichen der Spielerkarte mit der nächsten Computerkarte
-            const comparisonResult = compareCardProperties(playerFirstCard, nextComputerCard, selectedProperty);
-
-            // Aktualisieren der Kartenstapel basierend auf dem Ergebnis des Vergleichs
-            updateCardStacks(comparisonResult, playerFirstCard, nextComputerCard);
-
-            console.log("Nächste höchste Eigenschaft des Computers:", selectedProperty, "Wert:", nextComputerCard[selectedProperty]);
-            console.log("Computer ist am Zug");
-        } else {
-            updateCardStacks(result, playerFirstCard, computerFirstCard);
-        }
+        updateCardStacks(result);
 
         setIsComputerCardRevealed(false);
 
@@ -142,37 +131,33 @@ useEffect(() => {
             setGameOver(true);
         }
     }, 4000);
-}, [playerCards, computerCards, updateCardStacks, lastWinner]);
+    setRoundCount(prevRoundCount => prevRoundCount + 1);
 
-const handleComputerChoice = () => {
-  // Holen Sie die nächste Karte des Computers
-  const nextComputerCard = computerCards[1];
+  }, [playerCards, computerCards, updateCardStacks, lastWinner]);
 
-  // Ermitteln der höchsten Eigenschaft der Computerkarte
-  const computerSelectedProperty = selectHighestPropertyForComputer(nextComputerCard);
+  const handleComputerChoice = () => {
+    setShowResultText(true);
+    // Wähle die nächste Karte des Computers und bestimme die höchste Eigenschaft
+    const nextComputerCard = computerCards[1];
+    const selectedProperty = selectHighestPropertyForComputer(nextComputerCard);
 
-  // Setzen Sie die ausgewählte Eigenschaft und deren Wert
-  setComputerSelectedProperty(computerSelectedProperty);
-  setComputerSelectedPropertyValue(nextComputerCard[computerSelectedProperty]);
+    // Führe den Vergleich durch und aktualisiere die Stapel
+    const comparisonResult = compareCardProperties(playerCards[0], nextComputerCard, selectedProperty);
+    handleCardComparison(comparisonResult);
 
-  // Führen Sie den Vergleich durch und aktualisieren Sie die Stapel
-  const comparisonResult = compareCardProperties(playerCards[0], nextComputerCard, computerSelectedProperty);
-  handleCardComparison(comparisonResult, computerSelectedProperty);
-};
+    console.log("Nächste höchste Eigenschaft des Computers:", selectedProperty, "Wert:", nextComputerCard[selectedProperty]);
+  };
   
-
-  
-     // Initialisierung des Spiels: Karten mischen und an Spieler und Computer verteilen
-     useEffect(() => {
+  useEffect(() => {
       const shuffledCards = shuffleCards([...cardsData]);
       const { playerCards, computerCards } = dealCards(shuffledCards);
       setPlayerCards(playerCards);
       setComputerCards(computerCards);
-    }, []);
+  }, []);
   
-   // Rendern des Spielbretts mit den Karten der Spieler und des Computers
    return (
     <div>
+      <div>Runde: {roundCount}</div>
       {showComputerChoiceButton && (
     <button onClick={handleComputerChoice}>Nächste Computerwahl</button>
       )}
@@ -193,6 +178,9 @@ const handleComputerChoice = () => {
       </div>
       <div className="card-container">
           <CardDisplay
+            setShowResultText={setShowResultText}
+            showResultText={showResultText}
+            showComputerChoiceButton={showComputerChoiceButton}
             title="Player Card"
             card={playerCards[0]}
             otherCard={computerCards[0]}
@@ -207,6 +195,8 @@ const handleComputerChoice = () => {
 />
           <CardDisplay
               title="Computer Card"
+              showResultText={showResultText}
+              setShowResultText={setShowResultText}
               card={computerCards[0]}
               otherCard={playerCards[0]}
               onCompare={handleCardComparison}
@@ -232,6 +222,6 @@ const handleComputerChoice = () => {
     )}
     </div>
   );
-      }
+}
   
-  export default GameBoard; // Exportieren der GameBoard-Komponente für die Verwendung in anderen Teilen der Anwendung
+export default GameBoard;
