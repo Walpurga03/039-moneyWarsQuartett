@@ -30,7 +30,6 @@ const GameBoard = () => {
 
     // Überprüfen, ob eine Computerkarte vorhanden ist
     if (!computerCard) {
-        console.log("Keine Computerkarte verfügbar");
         return;
     }
 
@@ -77,7 +76,8 @@ useEffect(() => {
       updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
       updatedPlayerCards.shift(); // Entfernt die oberste Spielerkarte
       updatedDrawPile = [];
-      setPlayerTurn(true)
+      setPlayerTurn(true);
+      console.log("win")
     } else if (result === 'lose') {
       setShowComputerChoiceButton(true);
       setLastWinner('computer');
@@ -87,6 +87,7 @@ useEffect(() => {
       updatedComputerCards.shift(); // Entfernt die oberste Computerkarte
       updatedPlayerCards.shift();
       updatedDrawPile = [];
+      console.log("lose")
     } else if (result === 'draw') {
       // Bei einem Unentschieden werden beide obersten Karten auf den Unentschieden-Stapel gelegt
       updatedDrawPile.push(playerCards[0], computerCards[0]);
