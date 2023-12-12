@@ -9,7 +9,9 @@ window.addEventListener("load", addMousePositionToCss(), false);
 
 
 // Card-Komponente zur Darstellung einer einzelnen Spielkarte
-const Card = ({showComputerChoiceButton, card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
+const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
+  console.log('isComputerNextClicked in Card:', isComputerNextClicked);
+
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
   const [showResultText, setShowResultText] = useState(false);
@@ -18,6 +20,14 @@ const Card = ({showComputerChoiceButton, card, computerCard, onCompare, isClicka
   const [selectPropertyName, setSelectPropertyName] = useState('');
   const [selectedPropertyText, setSelectedPropertyText] = useState('');
 
+  useEffect(() => {
+    console.log('isComputerNextClicked in Card:', isComputerNextClicked);
+
+    if (isComputerNextClicked) {
+      // Aktivieren Sie hier die zeitgesteuerte Anzeige
+      displayResultTextFor5Seconds();
+    }
+  }, [isComputerNextClicked]);
 
 
   // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen

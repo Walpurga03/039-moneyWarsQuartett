@@ -5,8 +5,9 @@ import Icon from '../assets/icons/cards_icon.png'; // Symbol für die Karten
 import '../styles/CardDisplay.css'; // Stil-Datei für die CardDisplay-Komponente
 
 // CardDisplay-Komponente zur Anzeige einer Spielkarte mit zusätzlichen Informationen
-const CardDisplay = ({showResultText, setShowResultText, showComputerChoiceButton, currentLanguage, onToggleLanguage, title, card, otherCard, onCompare, updateCards, remainingCards, isClickable = true, isRevealed = false, isComputerCard = false}) => {
-  
+const CardDisplay = ({isComputerNextClicked, showResultText, setShowResultText, showComputerChoiceButton, currentLanguage, onToggleLanguage, title, card, otherCard, onCompare, updateCards, remainingCards, isClickable = true, isRevealed = false, isComputerCard = false}) => {
+  console.log('isComputerNextClicked in CardDisplay:', isComputerNextClicked);
+
   const resetResultText = () => {
     setShowResultText(false);
 };
@@ -27,6 +28,7 @@ const CardDisplay = ({showResultText, setShowResultText, showComputerChoiceButto
       </div>
       {card && (
         <Card
+          isComputerNextClicked={isComputerNextClicked}
           showComputerChoiceButton={showComputerChoiceButton}
           card={card} // Aktuelle Karte
           computerCard={otherCard} // Karte des Gegners (Computer)

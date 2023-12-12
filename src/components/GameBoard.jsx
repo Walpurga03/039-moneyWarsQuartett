@@ -22,8 +22,16 @@ const GameBoard = () => {
   const [showComputerChoiceButton, setShowComputerChoiceButton] = useState(false);
   const [roundCount, setRoundCount] = useState(0);
   const [showResultText, setShowResultText] = useState(false);
+  const [isComputerNextClicked, setIsComputerNextClicked] = useState(false);
 
 
+  const handleComputerNextClick = () => {
+    console.log('Computer nächster Zug geklickt');
+    setIsComputerNextClicked(true);
+    setTimeout(() => {
+      setIsComputerNextClicked(false);
+    }, 5000); // Annahme: 5 Sekunden, passen Sie dies nach Bedarf an
+  };
 
   const showResultTextFunction = () => {
     // Hier kannst du die Logik implementieren, um den Resultatstext anzuzeigen
@@ -49,6 +57,8 @@ const GameBoard = () => {
   };
 
   useEffect(() => {
+    console.log('playerTurn geändert:', playerTurn);
+
     if (!playerTurn) {
         console.log('Computer macht seinen Zug');
         computerTurn();
@@ -71,7 +81,9 @@ const GameBoard = () => {
     let updatedPlayerCards = [...playerCards];
     let updatedComputerCards = [...computerCards];
     let updatedDrawPile = [...drawPile];
-
+    
+    console.log('Aktualisierte Spielerkarten:', playerCards);
+    console.log('Aktualisierte Computerkarten:', computerCards);
     console.log("Aktuelles Ergebnis:", result); // Zeigt das aktuelle Ergebnis an
 
   
@@ -136,7 +148,10 @@ const GameBoard = () => {
   }, [playerCards, computerCards, updateCardStacks, lastWinner]);
 
   const handleComputerChoice = () => {
+    console.log('handleComputerChoice ausgelöst');
     setShowResultText(true);
+    setIsComputerNextClicked(true); // Aktivieren des States für die zeitgesteuerte Anzeige
+
     // Wähle die nächste Karte des Computers und bestimme die höchste Eigenschaft
     const nextComputerCard = computerCards[1];
     const selectedProperty = selectHighestPropertyForComputer(nextComputerCard);
@@ -146,7 +161,12 @@ const GameBoard = () => {
     handleCardComparison(comparisonResult);
 
     console.log("Nächste höchste Eigenschaft des Computers:", selectedProperty, "Wert:", nextComputerCard[selectedProperty]);
-  };
+
+    setTimeout(() => {
+      setIsComputerNextClicked(false); // Setze den State nach einer gewissen Zeit zurück
+    }, 5000); // Annahme: 5 Sekunden, passen Sie dies nach Bedarf an
+};
+
   
   useEffect(() => {
       const shuffledCards = shuffleCards([...cardsData]);
@@ -178,6 +198,7 @@ const GameBoard = () => {
       </div>
       <div className="card-container">
           <CardDisplay
+            isComputerNextClicked={isComputerNextClicked}
             setShowResultText={setShowResultText}
             showResultText={showResultText}
             showComputerChoiceButton={showComputerChoiceButton}
@@ -194,6 +215,7 @@ const GameBoard = () => {
             computerSelectedProperty={computerSelectedProperty}
 />
           <CardDisplay
+              isComputerNextClicked={isComputerNextClicked}
               title="Computer Card"
               showResultText={showResultText}
               setShowResultText={setShowResultText}
