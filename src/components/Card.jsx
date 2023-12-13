@@ -10,7 +10,6 @@ window.addEventListener("load", addMousePositionToCss(), false);
 
 // Card-Komponente zur Darstellung einer einzelnen Spielkarte
 const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
-  console.log('isComputerNextClicked in Card:', isComputerNextClicked);
 
   const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
@@ -19,9 +18,9 @@ const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCa
   const [selectPropertyComputer, setSelectPropertyComputer] = useState('');
   const [selectPropertyName, setSelectPropertyName] = useState('');
   const [selectedPropertyText, setSelectedPropertyText] = useState('');
+  const [comparisonDetails, setComparisonDetails] = useState('');
 
   useEffect(() => {
-    console.log('isComputerNextClicked in Card:', isComputerNextClicked);
 
     if (isComputerNextClicked) {
       // Aktivieren Sie hier die zeitgesteuerte Anzeige
@@ -138,6 +137,7 @@ const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCa
                 {result === 'win' && <p className='win'>{selectedPropertyText}<br/>Player Win<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
                 {result === 'lose' && <p className='lose'>{selectedPropertyText}<br/>Player Lose<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
                 {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
+                {/* <p>{comparisonDetails}</p>  */}
               </div>
             )}
           </div>

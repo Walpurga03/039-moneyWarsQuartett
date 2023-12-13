@@ -1,43 +1,56 @@
 export const shuffleCards = (cards) => {
-    console.log("Karten mischen:", cards);
     for (let i = cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[j]] = [cards[j], cards[i]];
     }
-    console.log("Gemischte Karten:", cards);
     return cards;
 };
 
 export const dealCards = (shuffledCards) => {
-  console.log("Karten austeilen:", shuffledCards);
   const half = Math.ceil(shuffledCards.length / 2);
   const playerCards = shuffledCards.slice(0, half);
   const computerCards = shuffledCards.slice(half);
-  console.log("Spielerkarten:", playerCards, "Computerkarten:", computerCards);
   return { playerCards, computerCards };
 };
 
+
 export const compareCardProperties = (playerCard, computerCard, propertyName) => {
-  console.log(`Eigenschaften vergleichen: ${propertyName}, Spielerkarte:`, playerCard, "Computerkarte:", computerCard);
+  const propertyNamesMapping = {
+    property0: 'Jahr',
+    property1: 'Seit',
+    property2: 'Knappheit',
+    property3: 'Lebensdauer',
+    property4: 'Teilbarkeit',
+    property5: 'Transportfähigkeit'
+  };
+  
+  console.log(`Eigenschaften vergleichen: ${propertyName}, Spielerkarte:`, playerCard);
+  console.log(`Eigenschaften vergleichen: ${propertyName}, Computerkarte:`, computerCard);
+  // Wenn property1 ausgewählt wird, verwenden Sie property0 zum Vergleich
+  const propertyToCompare = propertyName === 'property1' ? 'property0' : propertyName;
 
-  const playerValue = playerCard[propertyName];
-  const computerValue = computerCard[propertyName];
+  const readablePropertyName = propertyNamesMapping[propertyToCompare];
+  const playerValue = playerCard[propertyToCompare];
+  const computerValue = computerCard[propertyToCompare];
+  console.log(`Vergleich auf Basis von '${propertyToCompare}': Spieler = ${playerValue}, Computer = ${computerValue}`);
 
+  // Vergleichslogik (wie zuvor, nur mit propertyToCompare statt propertyName)
   if (playerValue > computerValue) {
       console.log("Ergebnis: Spieler gewinnt");
+      console.log(readablePropertyName, playerValue, computerValue);
       return 'win';
   } else if (playerValue < computerValue) {
       console.log("Ergebnis: Spieler verliert");
+      console.log(readablePropertyName, playerValue, computerValue);
       return 'lose';
   } else {
       console.log("Ergebnis: Unentschieden");
+      console.log(propertyToCompare, playerValue, computerValue);
       return 'draw';
   }
 };
 
-
 export const selectHighestPropertyForComputer = (computerCard) => {
-  console.log("Höchste Eigenschaft für Computer auswählen, Karte:", computerCard);
 
   let highestValue = -Infinity;
   let selectedProperty = '';
@@ -57,11 +70,9 @@ export const selectHighestPropertyForComputer = (computerCard) => {
       }
     });
   }
-  console.log("Ausgewählte Eigenschaft:", selectedProperty);
 
   return selectedProperty;
 };
-
 
 export const addMousePositionToCss = () => {
   const elements = document.querySelectorAll(".mouse-position-css");

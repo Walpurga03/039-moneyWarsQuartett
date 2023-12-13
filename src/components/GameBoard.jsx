@@ -26,7 +26,6 @@ const GameBoard = () => {
 
 
   const handleComputerNextClick = () => {
-    console.log('Computer nächster Zug geklickt');
     setIsComputerNextClicked(true);
     setTimeout(() => {
       setIsComputerNextClicked(false);
@@ -49,7 +48,6 @@ const GameBoard = () => {
         return;
     }
 
-    console.log("Aktuelle Computerkarte:", computerCard);
 
     // Bestimmen der stärksten Eigenschaft der Computerkarte
     const highestProperty = selectHighestPropertyForComputer(computerCard);
@@ -57,16 +55,13 @@ const GameBoard = () => {
   };
 
   useEffect(() => {
-    console.log('playerTurn geändert:', playerTurn);
 
     if (!playerTurn) {
-        console.log('Computer macht seinen Zug');
         computerTurn();
     }
   }, [playerTurn]);
 
   useEffect(() => {
-  console.log("Aktualisiertes selectedProperty:", selectedProperty);
   }, [selectedProperty]);
 
   const toggleLanguage = () => {
@@ -82,9 +77,7 @@ const GameBoard = () => {
     let updatedComputerCards = [...computerCards];
     let updatedDrawPile = [...drawPile];
     
-    console.log('Aktualisierte Spielerkarten:', playerCards);
-    console.log('Aktualisierte Computerkarten:', computerCards);
-    console.log("Aktuelles Ergebnis:", result); // Zeigt das aktuelle Ergebnis an
+   
 
   
     if (result === 'win') {
@@ -95,9 +88,7 @@ const GameBoard = () => {
       updatedPlayerCards.shift();
       updatedDrawPile = [];
       setPlayerTurn(true);
-      console.log("Spieler gewinnt, Computer-Button wird nicht angezeigt.");
     } else if (result === 'lose') {
-      console.log("Spieler verliert, Computer-Button sollte angezeigt werden.");
       setShowComputerChoiceButton(true);
       setLastWinner('computer');
       const nextComputerCard = computerCards[1];
@@ -106,13 +97,10 @@ const GameBoard = () => {
       updatedComputerCards.shift();
       updatedPlayerCards.shift();
       updatedDrawPile = [];
-      console.log("Ist Computer-Button sichtbar:", showComputerChoiceButton);
     } else if (result === 'draw') {
       updatedDrawPile.push(playerCards[0], computerCards[0]);
       updatedPlayerCards.shift();
       updatedComputerCards.shift();
-      console.log('draw');
-      console.log("Unentschieden, keine Änderung am Computer-Button.");
 
     }
   
@@ -127,7 +115,6 @@ const GameBoard = () => {
   }, [playerCards, computerCards, drawPile]);
 
   useEffect(() => {
-    console.log(playerTurn ? 'Spieler ist am Zug' : 'Computer ist am Zug');
   }, [playerTurn]);
   
   const handleCardComparison = useCallback((result) => {
@@ -148,7 +135,6 @@ const GameBoard = () => {
   }, [playerCards, computerCards, updateCardStacks, lastWinner]);
 
   const handleComputerChoice = () => {
-    console.log('handleComputerChoice ausgelöst');
     setShowResultText(true);
     setIsComputerNextClicked(true); // Aktivieren des States für die zeitgesteuerte Anzeige
 
@@ -160,7 +146,6 @@ const GameBoard = () => {
     const comparisonResult = compareCardProperties(playerCards[0], nextComputerCard, selectedProperty);
     handleCardComparison(comparisonResult);
 
-    console.log("Nächste höchste Eigenschaft des Computers:", selectedProperty, "Wert:", nextComputerCard[selectedProperty]);
 
     setTimeout(() => {
       setIsComputerNextClicked(false); // Setze den State nach einer gewissen Zeit zurück

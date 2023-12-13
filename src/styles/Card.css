@@ -129,7 +129,6 @@
   width: calc(100% - 10px); /* Etwas kleiner als das Hauptelement */
   height: calc(100% - 10px); /* Etwas kleiner als das Hauptelement */
   border-radius: 1em;
-  box-shadow: 5px 5px 5px grey;
   z-index: -1;
 }
 

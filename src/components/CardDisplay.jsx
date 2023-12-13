@@ -6,7 +6,6 @@ import '../styles/CardDisplay.css'; // Stil-Datei für die CardDisplay-Komponent
 
 // CardDisplay-Komponente zur Anzeige einer Spielkarte mit zusätzlichen Informationen
 const CardDisplay = ({isComputerNextClicked, showResultText, setShowResultText, showComputerChoiceButton, currentLanguage, onToggleLanguage, title, card, otherCard, onCompare, updateCards, remainingCards, isClickable = true, isRevealed = false, isComputerCard = false}) => {
-  console.log('isComputerNextClicked in CardDisplay:', isComputerNextClicked);
 
   const resetResultText = () => {
     setShowResultText(false);
