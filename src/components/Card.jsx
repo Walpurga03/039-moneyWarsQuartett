@@ -7,18 +7,21 @@ import { compareCardProperties, addMousePositionToCss } from '../logic/GameLogic
 
 window.addEventListener("load", addMousePositionToCss(), false);
 
-
 // Card-Komponente zur Darstellung einer einzelnen Spielkarte
-const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCard, onCompare, isClickable, isRevealed, isComputerCard,  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
+const Card = ({card, computerCard, isClickable, isComputerNextClicked,
+  showComputerChoiceButton, 
+  onCompare,isRevealed, isComputerCard,  
+  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
 
-  const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
-  const [result, setResult] = useState(''); // Zustand für das Speichern des Ergebnisses eines Vergleichs
+  const [result, setResult] = useState('');
   const [showResultText, setShowResultText] = useState(false);
   const [selectPropertyPlayer, setSelectPropertyPlayer] = useState('');
   const [selectPropertyComputer, setSelectPropertyComputer] = useState('');
   const [selectPropertyName, setSelectPropertyName] = useState('');
   const [selectedPropertyText, setSelectedPropertyText] = useState('');
+  const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
   const [comparisonDetails, setComparisonDetails] = useState('');
+
 
   useEffect(() => {
 
@@ -93,6 +96,7 @@ const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCa
     }
   };
 
+
   useEffect(() => {
     addMousePositionToCss();
   }, []);
@@ -137,7 +141,7 @@ const Card = ({isComputerNextClicked, showComputerChoiceButton, card, computerCa
                 {result === 'win' && <p className='win'>{selectedPropertyText}<br/>Player Win<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
                 {result === 'lose' && <p className='lose'>{selectedPropertyText}<br/>Player Lose<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
                 {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
-                {/* <p>{comparisonDetails}</p>  */}
+                <p className='.result-text-p'>-{comparisonDetails}-</p>
               </div>
             )}
           </div>

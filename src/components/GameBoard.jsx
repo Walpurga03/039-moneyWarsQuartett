@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import cardsData from '../data/cardsData';
-import { shuffleCards, dealCards, selectHighestPropertyForComputer, compareCardProperties } from '../logic/GameLogic';
+import {updateCardStacks, shuffleCards, dealCards, selectHighestPropertyForComputer, compareCardProperties } from '../logic/GameLogic';
 import CardDisplay from './CardDisplay';
 import "../styles/GameBoard.css";
-import Card from './Card';
 
 const GameBoard = () => {
   const [playerCards, setPlayerCards] = useState([]);
@@ -72,57 +71,16 @@ const GameBoard = () => {
     setIsGameStarted(true);
   };
 
-  const updateCardStacks = useCallback((result) => {
-    let updatedPlayerCards = [...playerCards];
-    let updatedComputerCards = [...computerCards];
-    let updatedDrawPile = [...drawPile];
-    
-   
-
-  
-    if (result === 'win') {
-      setLastWinner('player');
-      setShowComputerChoiceButton(false);
-      updatedPlayerCards.push(computerCards[0], playerCards[0], ...updatedDrawPile);
-      updatedComputerCards.shift(); 
-      updatedPlayerCards.shift();
-      updatedDrawPile = [];
-      setPlayerTurn(true);
-    } else if (result === 'lose') {
-      setShowComputerChoiceButton(true);
-      setLastWinner('computer');
-      const nextComputerCard = computerCards[1];
-      const bestProperty = selectHighestPropertyForComputer(nextComputerCard);
-      updatedComputerCards.push(playerCards[0], computerCards[0], ...updatedDrawPile);
-      updatedComputerCards.shift();
-      updatedPlayerCards.shift();
-      updatedDrawPile = [];
-    } else if (result === 'draw') {
-      updatedDrawPile.push(playerCards[0], computerCards[0]);
-      updatedPlayerCards.shift();
-      updatedComputerCards.shift();
-
-    }
-  
-    setPlayerCards(updatedPlayerCards);
-    setComputerCards(updatedComputerCards);
-    setDrawPile(updatedDrawPile);
-  
-    // Spielende überprüfen
-    if (updatedPlayerCards.length === 0 || updatedComputerCards.length === 0) {
-      setGameOver(true);
-    }
-  }, [playerCards, computerCards, drawPile]);
-
   useEffect(() => {
-  }, [playerTurn]);
+    }, [playerTurn]);
   
   const handleCardComparison = useCallback((result) => {
     setIsComputerCardRevealed(true);
     setShowResultText(true);
 
     setTimeout(() => {
-        updateCardStacks(result);
+      updateCardStacks(result, playerCards, computerCards, drawPile, setPlayerCards, setComputerCards, setDrawPile, setGameOver, setLastWinner, setShowComputerChoiceButton, setPlayerTurn);
+
 
         setIsComputerCardRevealed(false);
 

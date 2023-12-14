@@ -50,6 +50,41 @@ export const compareCardProperties = (playerCard, computerCard, propertyName) =>
   }
 };
 
+export const updateCardStacks = (result, playerCards, computerCards, drawPile, setPlayerCards, setComputerCards, setDrawPile, setGameOver, setLastWinner, setShowComputerChoiceButton, setPlayerTurn) => {
+  let updatedPlayerCards = [...playerCards];
+  let updatedComputerCards = [...computerCards];
+  let updatedDrawPile = [...drawPile];
+
+  if (result === 'win') {
+    setLastWinner('player');
+    setShowComputerChoiceButton(false);
+    updatedPlayerCards.push(computerCards[0], playerCards[0], ...updatedDrawPile);
+    updatedComputerCards.shift(); 
+    updatedPlayerCards.shift();
+    updatedDrawPile = [];
+    setPlayerTurn(true);
+  } else if (result === 'lose') {
+    setShowComputerChoiceButton(true);
+    setLastWinner('computer');
+    updatedComputerCards.push(playerCards[0], computerCards[0], ...updatedDrawPile);
+    updatedComputerCards.shift();
+    updatedPlayerCards.shift();
+    updatedDrawPile = [];
+  } else if (result === 'draw') {
+    updatedDrawPile.push(playerCards[0], computerCards[0]);
+    updatedPlayerCards.shift();
+    updatedComputerCards.shift();
+  }
+
+  setPlayerCards(updatedPlayerCards);
+  setComputerCards(updatedComputerCards);
+  setDrawPile(updatedDrawPile);
+
+  if (updatedPlayerCards.length === 0 || updatedComputerCards.length === 0) {
+    setGameOver(true);
+  }
+};
+
 export const selectHighestPropertyForComputer = (computerCard) => {
 
   let highestValue = -Infinity;
