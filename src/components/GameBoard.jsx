@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import cardsData from '../data/cardsData';
-import {updateCardStacks, shuffleCards, dealCards, selectHighestPropertyForComputer, compareCardProperties } from '../logic/GameLogic';
+import {updateCardStacks, shuffleCards, dealCards, selectHighestPropertyForComputer} from '../logic/GameLogic';
 import CardDisplay from './CardDisplay';
 import "../styles/GameBoard.css";
 
@@ -11,10 +11,9 @@ const GameBoard = () => {
   const [isComputerCardRevealed, setIsComputerCardRevealed] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('de'); // Standardmäßig Englisch
+  const [currentLanguage, setCurrentLanguage] = useState('de');
   const [playerTurn, setPlayerTurn] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [isComputerTurn, setIsComputerTurn] = useState(false);
   const [computerSelectedProperty, setComputerSelectedProperty] = useState(null);
   const [lastWinner, setLastWinner] = useState(null);
   const [computerSelectedPropertyValue, setComputerSelectedPropertyValue] = useState(null);
@@ -24,6 +23,40 @@ const GameBoard = () => {
   const [isComputerNextClicked, setIsComputerNextClicked] = useState(false);
 
 
+  const compareCardProperties = (playerCard, computerCard, propertyName) => {
+    const propertyNamesMapping = {
+      property0: 'Jahr',
+      property1: 'Seit',
+      property2: 'Knappheit',
+      property3: 'Lebensdauer',
+      property4: 'Teilbarkeit',
+      property5: 'Transportfähigkeit'
+    };
+    console.log(`Eigenschaften vergleichen: ${propertyName}, Spielerkarte:`, playerCard);
+    console.log(`Eigenschaften vergleichen: ${propertyName}, Computerkarte:`, computerCard);
+    const propertyToCompare = propertyName === 'property1' ? 'property0' : propertyName;
+    const readablePropertyName = propertyNamesMapping[propertyToCompare];
+    const playerValue = playerCard[propertyToCompare];
+    const computerValue = computerCard[propertyToCompare];
+    console.log(`Vergleich auf Basis von '${propertyToCompare}': Spieler = ${playerValue}, Computer = ${computerValue}`);
+
+
+    if (playerValue > computerValue) {
+      console.log("Ergebnis: Spieler gewinnt");
+      console.log(readablePropertyName, playerValue, computerValue);
+      return 'win';
+      } else if (playerValue < computerValue) {
+      console.log("Ergebnis: Spieler verliert");
+      console.log(readablePropertyName, playerValue, computerValue);
+      return 'lose';
+      } else {
+      console.log("Ergebnis: Unentschieden");
+      console.log(propertyToCompare, playerValue, computerValue);
+      return 'draw';
+      }
+
+  };
+
   const handleComputerNextClick = () => {
     setIsComputerNextClicked(true);
     setTimeout(() => {
@@ -32,23 +65,16 @@ const GameBoard = () => {
   };
 
   const showResultTextFunction = () => {
-    // Hier kannst du die Logik implementieren, um den Resultatstext anzuzeigen
-    // Du kannst showResultText auf true setzen, um die Anzeige auszulösen
     setShowResultText(true);
   };
   
   const computerTurn = () => {
-    // Annahme: Die erste Karte des Computers wird ausgewählt
     const computerCard = computerCards[0];
     
-
-    // Überprüfen, ob eine Computerkarte vorhanden ist
     if (!computerCard) {
         return;
     }
 
-
-    // Bestimmen der stärksten Eigenschaft der Computerkarte
     const highestProperty = selectHighestPropertyForComputer(computerCard);
     setSelectedProperty(highestProperty);
   };
@@ -74,23 +100,27 @@ const GameBoard = () => {
   useEffect(() => {
     }, [playerTurn]);
   
-  const handleCardComparison = useCallback((result) => {
-    setIsComputerCardRevealed(true);
-    setShowResultText(true);
-
-    setTimeout(() => {
-      updateCardStacks(result, playerCards, computerCards, drawPile, setPlayerCards, setComputerCards, setDrawPile, setGameOver, setLastWinner, setShowComputerChoiceButton, setPlayerTurn);
-
-
+    const handleCardComparison = useCallback((result) => {
+      setIsComputerCardRevealed(true);
+      setShowResultText(true);
+    
+      setTimeout(() => {
+        updateCardStacks(result, playerCards, computerCards, drawPile, setPlayerCards, setComputerCards, setDrawPile, setGameOver, setLastWinner, setShowComputerChoiceButton, setPlayerTurn);
+    
         setIsComputerCardRevealed(false);
-
+    
         if (playerCards.length === 0 || computerCards.length === 0) {
-            setGameOver(true);
+          setGameOver(true);
         }
-    }, 4000);
-    setRoundCount(prevRoundCount => prevRoundCount + 1);
-
-  }, [playerCards, computerCards, updateCardStacks, lastWinner]);
+    
+        // Wechseln des Zuges nach dem Kartenvergleich
+        setPlayerTurn(prevPlayerTurn => !prevPlayerTurn); // Wechselt den Zustand des Zuges
+    
+      }, 4000);
+      setRoundCount(prevRoundCount => prevRoundCount + 1);
+    
+    }, [playerCards, computerCards, updateCardStacks, lastWinner]);
+    
 
   const handleComputerChoice = () => {
     setShowResultText(true);
@@ -141,6 +171,7 @@ const GameBoard = () => {
       </div>
       <div className="card-container">
           <CardDisplay
+           isPlayerTurn={playerTurn}
             isComputerNextClicked={isComputerNextClicked}
             setShowResultText={setShowResultText}
             showResultText={showResultText}
@@ -154,10 +185,10 @@ const GameBoard = () => {
             isClickable={true}
             currentLanguage={currentLanguage}
             onToggleLanguage={toggleLanguage}
-            isComputerTurn={isComputerTurn}
             computerSelectedProperty={computerSelectedProperty}
 />
           <CardDisplay
+           isPlayerTurn={playerTurn}
               isComputerNextClicked={isComputerNextClicked}
               title="Computer Card"
               showResultText={showResultText}
@@ -172,7 +203,6 @@ const GameBoard = () => {
               isComputerCard={true}
               currentLanguage={currentLanguage}
               onToggleLanguage={toggleLanguage}
-              isComputerTurn={isComputerTurn}
               computerSelectedProperty={computerSelectedProperty}
               />
       </div>

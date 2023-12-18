@@ -1,3 +1,5 @@
+/*Zweck: Diese Funktion mischt ein Array von Karten. Sie geht das Array von hinten durch und vertauscht jedes Element mit einem zufällig ausgewählten Element aus einem Teil des Arrays, das dieses und alle vorherigen Elemente umfasst.
+Anwendung: Verwendet, um die Karten vor dem Beginn eines Spiels zufällig anzuordnen. */
 export const shuffleCards = (cards) => {
     for (let i = cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -5,15 +7,16 @@ export const shuffleCards = (cards) => {
     }
     return cards;
 };
-
+/*Zweck: Diese Funktion teilt die gemischten Karten in zwei Hälften auf - eine für den Spieler und eine für den Computer.
+Anwendung: Verwendet, um jedem Spieler zu Beginn des Spiels einen Satz Karten zuzuteilen. */
 export const dealCards = (shuffledCards) => {
   const half = Math.ceil(shuffledCards.length / 2);
   const playerCards = shuffledCards.slice(0, half);
   const computerCards = shuffledCards.slice(half);
   return { playerCards, computerCards };
 };
-
-
+/*Zweck: Diese Funktion vergleicht eine bestimmte Eigenschaft (z.B. 'Jahr', 'Knappheit') zwischen einer Spielerkarte und einer Computerkarte. Sie gibt das Ergebnis dieses Vergleichs zurück ('win', 'lose', 'draw').
+Anwendung: Wird aufgerufen, wenn der Spieler eine Eigenschaft auswählt, um sie mit der entsprechenden Eigenschaft der Computerkarte zu vergleichen. */
 export const compareCardProperties = (playerCard, computerCard, propertyName) => {
   const propertyNamesMapping = {
     property0: 'Jahr',
@@ -26,7 +29,6 @@ export const compareCardProperties = (playerCard, computerCard, propertyName) =>
   
   console.log(`Eigenschaften vergleichen: ${propertyName}, Spielerkarte:`, playerCard);
   console.log(`Eigenschaften vergleichen: ${propertyName}, Computerkarte:`, computerCard);
-  // Wenn property1 ausgewählt wird, verwenden Sie property0 zum Vergleich
   const propertyToCompare = propertyName === 'property1' ? 'property0' : propertyName;
 
   const readablePropertyName = propertyNamesMapping[propertyToCompare];
@@ -34,7 +36,6 @@ export const compareCardProperties = (playerCard, computerCard, propertyName) =>
   const computerValue = computerCard[propertyToCompare];
   console.log(`Vergleich auf Basis von '${propertyToCompare}': Spieler = ${playerValue}, Computer = ${computerValue}`);
 
-  // Vergleichslogik (wie zuvor, nur mit propertyToCompare statt propertyName)
   if (playerValue > computerValue) {
       console.log("Ergebnis: Spieler gewinnt");
       console.log(readablePropertyName, playerValue, computerValue);
@@ -49,7 +50,8 @@ export const compareCardProperties = (playerCard, computerCard, propertyName) =>
       return 'draw';
   }
 };
-
+/*Zweck: Diese Funktion aktualisiert die Kartenstapel basierend auf dem Ergebnis des Kartenvergleichs. Karten werden zwischen Spieler- und Computerstapel verschoben, oder es werden Karten zum Unentschieden-Stapel hinzugefügt.
+Anwendung: Wird aufgerufen, nachdem das Ergebnis des Kartenvergleichs feststeht, um die Kartenstapel entsprechend zu aktualisieren. */
 export const updateCardStacks = (result, playerCards, computerCards, drawPile, setPlayerCards, setComputerCards, setDrawPile, setGameOver, setLastWinner, setShowComputerChoiceButton, setPlayerTurn) => {
   let updatedPlayerCards = [...playerCards];
   let updatedComputerCards = [...computerCards];
@@ -84,7 +86,8 @@ export const updateCardStacks = (result, playerCards, computerCards, drawPile, s
     setGameOver(true);
   }
 };
-
+/*Zweck: Diese Funktion bestimmt die stärkste Eigenschaft einer Computerkarte, die für den Vergleich mit einer Spielerkarte verwendet werden soll.
+Anwendung: Wird genutzt, um für den Computerzug die optimale Eigenschaft für den Vergleich auszuwählen. */
 export const selectHighestPropertyForComputer = (computerCard) => {
 
   let highestValue = -Infinity;
@@ -108,7 +111,8 @@ export const selectHighestPropertyForComputer = (computerCard) => {
 
   return selectedProperty;
 };
-
+/*Zweck: Diese Funktion fügt interaktive Stilelemente hinzu, die auf der aktuellen Mausposition basieren. Dies wird oft für visuelle Effekte verwendet, wie z.B. das Ändern des Aussehens eines Elements in Abhängigkeit von der Position des Mauszeigers.
+Anwendung: Wird beim Laden der Seite ausgeführt, um interaktive Stilelemente zu Elementen mit der Klasse mouse-position-css hinzuzufügen. */
 export const addMousePositionToCss = () => {
   const elements = document.querySelectorAll(".mouse-position-css");
   for(const element of elements) {
@@ -126,13 +130,3 @@ export const addMousePositionToCss = () => {
 };
 
 window.addEventListener("load", addMousePositionToCss(), false);
-
-
-
-
-  
-  
-  
-
-  
-  

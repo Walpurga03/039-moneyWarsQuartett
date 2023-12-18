@@ -1,17 +1,16 @@
 // Importieren der notwendigen Abhängigkeiten und Komponenten
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types'; // Für die Validierung der Prop-Typen
-import '../styles/Card.css'; // Stil-Datei für die Kartenkomponente
-import RatingScale from './RatingScale'; // Komponente für die Bewertungsskala
-import { compareCardProperties, addMousePositionToCss } from '../logic/GameLogic'; // Funktion zum Vergleichen von Karteigenschaften
+import PropTypes from 'prop-types';
+import '../styles/Card.css';
+import RatingScale from './RatingScale';
+import { addMousePositionToCss } from '../logic/GameLogic';
 
 window.addEventListener("load", addMousePositionToCss(), false);
 
-// Card-Komponente zur Darstellung einer einzelnen Spielkarte
 const Card = ({card, computerCard, isClickable, isComputerNextClicked,
-  showComputerChoiceButton, 
+  showComputerChoiceButton, isPlayerTurn,
   onCompare,isRevealed, isComputerCard,  
-  currentLanguage, isComputerTurn, computerSelectedProperty}) => {
+  currentLanguage}) => {
 
   const [result, setResult] = useState('');
   const [showResultText, setShowResultText] = useState(false);
@@ -19,20 +18,39 @@ const Card = ({card, computerCard, isClickable, isComputerNextClicked,
   const [selectPropertyComputer, setSelectPropertyComputer] = useState('');
   const [selectPropertyName, setSelectPropertyName] = useState('');
   const [selectedPropertyText, setSelectedPropertyText] = useState('');
-  const [showFullText, setShowFullText] = useState(false); // Zustand für das Anzeigen des vollen Textes
+  const [showFullText, setShowFullText] = useState(false); 
   const [comparisonDetails, setComparisonDetails] = useState('');
 
+  const compareCardProperties = (playerCard, computerCard, propertyName) => {
+    const propertyNamesMapping = {
+      property0: 'Jahr',
+      property1: 'Seit',
+      property2: 'Knappheit',
+      property3: 'Lebensdauer',
+      property4: 'Teilbarkeit',
+      property5: 'Transportfähigkeit'
+    };
+    
+    console.log(`Eigenschaften vergleichen: ${propertyName}, Spielerkarte:`, playerCard);
+    console.log(`Eigenschaften vergleichen: ${propertyName}, Computerkarte:`, computerCard);
+    const propertyToCompare = propertyName === 'property1' ? 'property0' : propertyName;
+    const readablePropertyName = propertyNamesMapping[propertyToCompare];
+    const playerValue = playerCard[propertyToCompare];
+    const computerValue = computerCard[propertyToCompare];
+    console.log(`Vergleich auf Basis von '${propertyToCompare}': Spieler = ${playerValue}, Computer = ${computerValue}`);
+
+
+    const result = playerValue > computerValue ? 'win' : playerValue < computerValue ? 'lose' : 'draw';
+  console.log("Vergleichsergebnis:", result);
+  return result;
+  };
 
   useEffect(() => {
-
+    console.log("showResultText:", showResultText, "isPlayerTurn:", isPlayerTurn, "result:", result);
     if (isComputerNextClicked) {
-      // Aktivieren Sie hier die zeitgesteuerte Anzeige
       displayResultTextFor5Seconds();
     }
-  }, [isComputerNextClicked]);
-
-
-  // Bestimmen Sie, welche Texte und Eigenschaftsbezeichnungen basierend auf der aktuellen Sprache verwendet werden sollen
+  }, [isComputerNextClicked, showResultText, isPlayerTurn, result]);
   const text = currentLanguage === 'en' ? card.textE : card.textD;
   const property1Label = currentLanguage === 'en' ? card.property1E : card.property1D;
   const property2Label = currentLanguage === 'en' ? card.property2E : card.property2D;
@@ -48,12 +66,10 @@ const Card = ({card, computerCard, isClickable, isComputerNextClicked,
     }, 5000); // 5 Sekunden warten, dann verbergen
   };
 
-  // Funktion zum Umschalten der Textanzeige
   const toggleText = () => {
     setShowFullText(!showFullText);
   };
 
-  // Extrahieren der Eigenschaften der Karte
     const { 
         property0,
         property1,
@@ -63,7 +79,6 @@ const Card = ({card, computerCard, isClickable, isComputerNextClicked,
         property5, 
         image, backCard } = card;
   
-   // Funktion, die aufgerufen wird, wenn auf eine Eigenschaft der Karte geklickt wird
    const handlePropertyClick = (event) => {
     if (showComputerChoiceButton) return;
     if (!isClickable) return;
@@ -101,13 +116,6 @@ const Card = ({card, computerCard, isClickable, isComputerNextClicked,
     addMousePositionToCss();
   }, []);
 
-  useEffect(() => {
-    if (isComputerCard && isComputerTurn) {
-      // Simulieren eines Klicks auf die Eigenschaft, die der Computer gewählt hat
-      handlePropertyClickSimulation(computerSelectedProperty);
-    }
-  }, [isComputerCard, isComputerTurn, computerSelectedProperty]);
-
     return (
       <>
         <div className="container-3d">
@@ -136,14 +144,14 @@ const Card = ({card, computerCard, isClickable, isComputerNextClicked,
                 </div>
               )}
             </div>
-            {showResultText && (
-              <div className='result-text'>
-                {result === 'win' && <p className='win'>{selectedPropertyText}<br/>Player Win<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
-                {result === 'lose' && <p className='lose'>{selectedPropertyText}<br/>Player Lose<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
-                {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
-                <p className='.result-text-p'>-{comparisonDetails}-</p>
-              </div>
-            )}
+            {showResultText && isPlayerTurn && ( 
+            <div className='result-text'>
+              {result === 'win' && <p className='win'>{selectedPropertyText}<br/>Player Win<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
+              {result === 'lose' && <p className='lose'>{selectedPropertyText}<br/>Player Lose<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
+              {result === 'draw' && <p className='draw'>{selectedPropertyText}<br/>Draw<br/>{selectPropertyPlayer}-vs-{selectPropertyComputer}</p>}
+              <p className='.result-text-p'>-{comparisonDetails}-</p>
+            </div>
+          )}
           </div>
         </div>
       </> 
