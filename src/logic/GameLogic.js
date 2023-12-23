@@ -111,22 +111,3 @@ export const selectHighestPropertyForComputer = (computerCard) => {
 
   return selectedProperty;
 };
-/*Zweck: Diese Funktion fügt interaktive Stilelemente hinzu, die auf der aktuellen Mausposition basieren. Dies wird oft für visuelle Effekte verwendet, wie z.B. das Ändern des Aussehens eines Elements in Abhängigkeit von der Position des Mauszeigers.
-Anwendung: Wird beim Laden der Seite ausgeführt, um interaktive Stilelemente zu Elementen mit der Klasse mouse-position-css hinzuzufügen. */
-export const addMousePositionToCss = () => {
-  const elements = document.querySelectorAll(".mouse-position-css");
-  for(const element of elements) {
-      element.addEventListener("mousemove", function(e) {
-          var rect = element.getBoundingClientRect();
-          var x = e.clientX - rect.left; 
-          var y = e.clientY - rect.top;
-          element.style = "--mouse-x:" + (x / element.offsetWidth) + ";--mouse-y:" + (y / element.offsetHeight) + ";";
-      });
-      element.addEventListener("mouseout", function(e) {
-          element.style = "";
-      });
-  }
-  return elements;
-};
-
-window.addEventListener("load", addMousePositionToCss(), false);

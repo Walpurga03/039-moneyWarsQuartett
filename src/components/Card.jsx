@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Card.css';
 import RatingScale from './RatingScale';
-import { addMousePositionToCss } from '../logic/GameLogic';
 
 window.addEventListener("load", addMousePositionToCss(), false);
 
@@ -110,11 +109,6 @@ const Card = ({card, computerCard, isClickable, isComputerNextClicked,
     setSelectedPropertyText(card[propertyLabel] || propertyName);
     }
   };
-
-
-  useEffect(() => {
-    addMousePositionToCss();
-  }, []);
 
     return (
       <>
